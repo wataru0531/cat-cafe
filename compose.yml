@@ -5,7 +5,7 @@ services:
     ports:
       - 3306:3306 # 127.0.0.1:3306 : MySQLの3306
       # MacOSの3306ポートと、コンテナを接続している。紐づけ。
-      # なので、Laravelプロジェクトは1270.0.0.1:8000で起動して、
+      # Laravelプロジェクトは1270.0.0.1:8000で起動、
       # DBと接続する場合は、127.0.0.1:3306 で紐づける
 
     volumes:
@@ -23,9 +23,17 @@ services:
     environment: # PMA → php my admin
       - PMA_USER=${DB_USERNAME}
       - PMA_PASSWORD=${DB_PASSWORD}
-      - PMA_HOST=mysql # サービス名のmysql
+      - PMA_HOST=mysql # 接続先のホストの名前 → ここではサービス名で接続できる
+                      # コンテナ同士の通信はサービス名が使える
     depends_on:
       - mysql
+  
+  mailpit: # 開発中のテスト用メールサーバー
+    image: axllent/mailpit:latest
+    ports:
+      - "1025:1025" # ホストOS:Laravelからメールを受け取る
+                    # → メール送信用のSMTPポート
+      - "8025:8025" # ホストOS:Mailpitの管理画面を公開するポート
 
 volumes: # 保存領域。Dockerの中の/var/lib/mysql を mysqlというVolumeに保持する
   mysql:
