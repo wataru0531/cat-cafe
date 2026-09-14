@@ -1,3 +1,10 @@
+
+<!--
+
+resources/views/contact/index.blade.php
+
+-->
+
 @extends('layouts.default')
 @section('title', 'お問い合わせ')
 
@@ -16,40 +23,108 @@
       なお、info@nekocafe.xx.xxからの返信が受信できるように事前に設定のご確認をお願い致します。
     </p>
     <div class="mt-8">
-      <!-- ▼▼▼▼エラーメッセージ▼▼▼▼　-->
+
+      <!-- 
+        ✅ エラーメッセージをすべて表示
+        any() → エラーが1件でも存在するかを確認。true/false
+        all() → エラーメッセージを全て取得
+      -->
+      <!-- @if($errors->any())
       <div class="mb-8 py-4 px-6 border border-pink-300 bg-pink-50 rounded">
         <ul>
-          <li class="text-pink-400">お名前は、必ず指定してください。</li>
-          <li class="text-pink-400">電話番号は、必ず指定してください。</li>
-          <li class="text-pink-400">お問い合わせ内容は、必ず指定してください。</li>
+          @foreach($errors->all() as $error)
+            <li class="text-pink-400">{{ $error }}</li>
+          @endforeach
         </ul>
       </div>
-      <!-- ▲▲▲▲エラーメッセージ▲▲▲▲　-->
+      @endif -->
 
-      <form>
+      <!-- 
+        route() → web.phpを見てurlを作っているだけ。
+        urlを取得した後で、methodを見てpostかgetを決める
+        old() → 自分が入力した内容。フラッシュメッセージとして保存
+      -->
+      <form action="{{ route('contact') }}" method="POST">
+        @csrf
+
         <div class="mb-4">
           <label for="name" class="block text-left p-1 my-1 font-medium">お名前<span class="text-white text-xs bg-yellow-400 mx-2 py-1 px-2">必須</span></label>
-          <input id="name" class="w-full p-4 text-xs leading-none bg-blueGray-50 rounded outline-none border" type="text" placeholder="例）田中太郎">
+          <input 
+            id="name" 
+            class="w-full p-4 text-xs leading-none bg-blueGray-50 rounded outline-none border" 
+            type="text" 
+            placeholder="例）田中太郎"
+            name="name"
+            value="{{ old('name') }}"
+          >
+          <!-- 
+            個別にエラーメッセージを表示
+            has()を使う場合
+          -->
+          @if($errors->has("name"))
+            <p class="text-red-500">{{ $errors->first("name") }}</p>
+          @endif
         </div>
         <div class="mb-4">
-          <label for=name_kana class="block text-left p-1 my-1 font-medium">お名前（フリガナ）<span class="text-white text-xs bg-yellow-400 mx-2 py-1 px-2">必須</span></label>
-          <input id="name_kana" class="w-full p-4 text-xs leading-none bg-blueGray-50 rounded outline-none border" type="text" placeholder="例）タナカタロウ">
+          <label for="name_kana" class="block text-left p-1 my-1 font-medium">お名前（フリガナ）<span class="text-white text-xs bg-yellow-400 mx-2 py-1 px-2">必須</span></label>
+          <input 
+            id="name_kana" 
+            class="w-full p-4 text-xs leading-none bg-blueGray-50 rounded outline-none border" 
+            type="text" 
+            placeholder="例）タナカタロウ"
+            name="name_kana"
+            value="{{ old('name_kana') }}"
+          >
+          <!-- errorディレクティグを使う場合 -->
+          @error("name_kana")
+            <p class="text-red-400">{{ $message }}</p>
+          @enderror
         </div>
         <div class="mb-4">
           <label for="phone" class="block text-left p-1 my-1 font-medium">電話番号</label>
-          <input id="phone" class="w-full p-4 text-xs leading-none bg-blueGray-50 rounded outline-none border" type="text" placeholder="例）0312345678">
+          <input 
+            id="phone" 
+            class="w-full p-4 text-xs leading-none bg-blueGray-50 rounded outline-none border" 
+            type="text" 
+            placeholder="例）0312345678"
+            name="phone"
+            value="{{ old('phone') }}"
+          >
+          @error("phone")
+          <p class="text-red-500">{{ $message }}</p>
+          @enderror
         </div>
         <div class="mb-4">
           <label for="email" class="block text-left p-1 my-1 font-medium">メールアドレス<span class="text-white text-xs bg-yellow-400 mx-2 py-1 px-2">必須</span></label>
-          <input id="email" class="w-full p-4 text-xs leading-none bg-blueGray-50 rounded outline-none border" type="email" placeholder="info@example.com">
+          <input 
+            id="email" 
+            class="w-full p-4 text-xs leading-none bg-blueGray-50 rounded outline-none border" 
+            type="email" 
+            placeholder="info@example.com"
+            name="email"
+            value="{{ old('email') }}"
+          >
+          @error("email")
+            <p class="text-red-500">{{ $message }}</p>
+          @enderror
         </div>
         <div class="mb-4">
           <label for="body" class="block text-left p-1 my-1 font-medium">お問い合わせ内容<span class="text-white text-xs bg-yellow-400 mx-2 py-1 px-2">必須</span></label>
-          <textarea id="body" class="w-full h-24 p-4 text-xs leading-none resize-none bg-blueGray-50 rounded outline-none border" type="text" placeholder="ご自由にご記入ください"></textarea>
+          <textarea 
+            id="body" 
+            class="w-full h-24 p-4 text-xs leading-none resize-none bg-blueGray-50 rounded outline-none border" 
+            type="text" 
+            placeholder="ご自由にご記入ください"
+            name="body"
+          >{{ old('body') }}</textarea>
+
+          @error("body")
+          <p class="text-red-500">{{ $message }}</p>
+          @enderror
         </div>
         <div class="text-center">
             <p>送信される際は、<a href="#" class="text-blue-600 hover:underline">個人情報保護方針</a>に同意したものとします。</p>
-            <button class="mt-6 text-white font-semibold leading-none bg-blue-600 hover:bg-blue-700 rounded py-4 px-12" type="submit">送信</button>
+            <button type="submit" class="mt-6 text-white font-semibold leading-none bg-blue-600 hover:bg-blue-700 rounded py-4 px-12" >送信</button>
         </div>
       </form>
     </div>
