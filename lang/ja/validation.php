@@ -1,5 +1,8 @@
 <?php
 
+// ⭐️ Laravel全体で使う共通のバリデーション、メッセージ
+// ※ validation.phpは、お問い合わせ専用のバリデーション設定
+
 declare(strict_types=1);
 
 return [
@@ -159,8 +162,8 @@ return [
     'url'                    => ':attributeは、有効なURL形式で指定してください。',
     'uuid'                   => ':attributeは、有効なUUIDである必要があります。',
 
-    // プロジェクトで使っているname(エラー項目名)を日本語にする
-    // サイト全体で使う項目
+    // ✅ nameは必須です。のようになるので、nameの部分などの表示名を変更する。
+    // → ContactRequest.phpで、:attributesで参照する。
     "attributes" => [
       "name" => "名前",
       "name_kana" => "名前(ふりがな)",

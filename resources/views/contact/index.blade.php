@@ -91,7 +91,7 @@ resources/views/contact/index.blade.php
             value="{{ old('phone') }}"
           >
           @error("phone")
-          <p class="text-red-500">{{ $message }}</p>
+            <p class="text-red-500">{{ $message }}</p>
           @enderror
         </div>
         <div class="mb-4">
