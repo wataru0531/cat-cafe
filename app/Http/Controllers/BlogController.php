@@ -1,5 +1,8 @@
 <?php
 
+// 一般ユーザー向けのブログ機能を担当させるController
+// 一般ユーザーが、/blogs などにアクセスしたときように表示させる
+
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
