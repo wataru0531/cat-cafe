@@ -63,7 +63,7 @@ class AdminBlogController extends Controller {
     ]);
   }
 
-  // ✅ データの更新
+  // ✅ 更新
   public function update(UpdateBlogRequest $request, string $id) {
     $blog = Blog::findOrFail($id);
 
@@ -71,7 +71,7 @@ class AdminBlogController extends Controller {
 
     if($request->has("image")) { // 画像が選択されている場合
       // dd($blog->image);
-      // 変更前の画像を削除
+      // 変更前の画像を削除。
       Storage::disk("public")->delete($blog->image);
 
       // storage/app/public/blogs/ のLaravelプロジェクト内に保存
@@ -85,8 +85,13 @@ class AdminBlogController extends Controller {
     return to_route("admin.blogs.index")->with("success", "ブログを更新しました。");
   }
 
-  // 
-  public function destroy(Blog $blog) {
-      //
+  // ✅ 削除
+  public function destroy(string $id) {
+    $blog = Blog::findOrFail($id);
+    $blog->delete(); // DBの1行を削除
+
+    Storage::disk("public")->delete($blog->image); // 画像をストレージから削除
+
+    return to_route("admin.blogs.index")->with("success", "ブログを削除しました。");
   }
 }
