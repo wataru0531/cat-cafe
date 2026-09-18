@@ -12,11 +12,11 @@ use Illuminate\Database\Eloquent\Model;
 //   本来変更できないはずの項目まで変更できてしまう危険がありために設定する
 
 class Blog extends Model {
-  // 一括代入を許可
+  // 一括代入を許可。
+  // ※ imageは $blog->image = $savedImageとして個別に代入しているので一括代入の対象がい
   protected $fillable = [
     "title",
     "image",
-    "body",
-    "",
+    "body"
   ];
 }

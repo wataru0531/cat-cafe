@@ -24,3 +24,7 @@ Route::get("/admin/blogs", [AdminBlogController::class, "index"])->name("admin.b
 Route::get("/admin/blogs/create", [AdminBlogController::class, "create"])->name("admin.blogs.index");
 
 Route::post("/admin/blogs", [AdminBlogController::class, "store"])->name("admin.blogs.store");
+
+// ブログ編集画面
+Route::get("/admin/blogs/{blog}", [AdminBlogController::class, "edit"])->name("admin.blogs.edit");
+Route::put("/admin/blogs/{blog}", [AdminBlogController::class, "update"])->name("admin.blogs.update");
