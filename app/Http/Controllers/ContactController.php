@@ -39,7 +39,7 @@ class ContactController extends Controller {
     // Log::debug($validated['name']. 'さんよりお問い合わせがありました');
     
     // ✅ メール送信
-    // to() → 宛先のメールアドレスを指定
+    // to() → 宛先(管理者か誰か)のメールアドレスを指定
     Mail::to("obito0531@gmail.com")->send(new ContactAdminMail($validated));
     
     return to_route('contact.complete');

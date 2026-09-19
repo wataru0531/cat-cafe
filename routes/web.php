@@ -22,7 +22,6 @@ Route::get("/contact/complete", [ContactController::class, "complete"])->name("c
 // ブログ投稿画面 管理者向け
 Route::get("/admin/blogs", [AdminBlogController::class, "index"])->name("admin.blogs.index");
 Route::get("/admin/blogs/create", [AdminBlogController::class, "create"])->name("admin.blogs.index");
-
 Route::post("/admin/blogs", [AdminBlogController::class, "store"])->name("admin.blogs.store");
 
 // ブログ編集画面

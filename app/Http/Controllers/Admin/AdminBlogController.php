@@ -16,10 +16,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AdminBlogController extends Controller {
-
   // ✅ ブログ一覧画面
   public function index() {
-    $blogs = blog::all();
+    // $blogs = blog::all(); // Eloquent
+
+    // クエリビルダーの書き方。更新日時が新しいもの順に
+    // → 単純に10件だけ取得
+    // $blogs = Blog::latest("updated_at")->limit(10)->get(); 
+
+    // paginate() ... 10件ずつページに分けて取得する
+    // → blade側で、$blogs->links()とすればpagerが表示される
+    // $blogs = Blog::latest("updated_at")->paginate("10");
+    $blogs = Blog::latest("updated_at")->simplePaginate("10"); // 前後のみ
 
     return view("admin.blogs.index", [ // Viewで変数が使えるようにする
       "blogs" => $blogs,
@@ -53,15 +61,25 @@ class AdminBlogController extends Controller {
   }
 
   // ✅ 編集処理
-  public function edit(string $id) {
-    // 指定したIDのブログを編集
-    // $blog = Blog::find($id); // なければnullを返す
-    $blog = Blog::findOrFail($id); // なければ404を返す
+  // → ルートモデル結合
+  //   Laravelに、URLに入っているidを使って、対応するBlogモデルを探して$blogに入れるように指示
+  public function edit(Blog $blog) {
+    // DBに探しに行かなくてもいい。
 
     return View("admin.blogs.edit", [
       "blog" => $blog // $blogをViewで使えるようにする
     ]);
   }
+  
+  // public function edit(string $id) {
+  //   // 指定したIDのブログを編集
+  //   // $blog = Blog::find($id); // なければnullを返す
+  //   $blog = Blog::findOrFail($id); // なければ404を返す
+
+  //   return View("admin.blogs.edit", [
+  //     "blog" => $blog // $blogをViewで使えるようにする
+  //   ]);
+  // }
 
   // ✅ 更新
   public function update(UpdateBlogRequest $request, string $id) {
