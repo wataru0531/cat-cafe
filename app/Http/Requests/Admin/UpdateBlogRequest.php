@@ -18,6 +18,8 @@ class UpdateBlogRequest extends FormRequest {
   // ✅ 入力値のバリデーションルールを定義
   public function rules(): array {
     return [
+      // exists → 送信された値がcategoriesテーブルのidカラムに存在するかを検証
+      "category_id" => ["required", "exists:categories,id"],
       "title" => ["required", "max:255"],
       "image" => [
         "nullable", // ⭐️ 省略可能にする(更新時)

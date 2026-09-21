@@ -12,8 +12,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreBlogRequest;
 use App\Http\Requests\Admin\UpdateBlogRequest;
 use App\Models\Blog;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
 
 class AdminBlogController extends Controller {
   // ✅ ブログ一覧画面
@@ -66,8 +68,12 @@ class AdminBlogController extends Controller {
   public function edit(Blog $blog) {
     // DBに探しに行かなくてもいい。
 
+    $categories = Category::all();
+
     return View("admin.blogs.edit", [
-      "blog" => $blog // $blogをViewで使えるようにする
+      // blogのキーがbladeファイルで$blogで使われる。
+      "blog" => $blog, // $blogをViewで使えるようにする
+      "categories" => $categories,
     ]);
   }
   
@@ -96,6 +102,10 @@ class AdminBlogController extends Controller {
       // パスが返される
       $updateData["image"] = $request->file("image")->store("blogs", "public");
     }
+
+    // $blog->category ... Blogモデルのcategoryを発火。関連付けをしている
+    // $updateData ... 送信されてきたカテゴリーのid。数字の1〜4
+    $blog->category()->associate($updateData["category_id"]);
 
     $blog->update($updateData); // DBを更新
                                 // → 一括更新なので、$fillableにimageを追加
