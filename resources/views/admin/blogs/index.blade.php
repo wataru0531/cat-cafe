@@ -43,7 +43,12 @@
               >
               <p class="font-medium"><a href="{{ route('admin.blogs.edit', ['blog' => $blog->id]) }}">{{ $blog->title }}</a></p>
             </td>
-            <td class="font-medium">成長</td>
+            <!-- 
+              リレーションでcategoryのデータを取得できる。
+              category ... Blogクラスのcategory()で命名されている
+            
+            -->
+            <td class="font-medium">{{ $blog->category->name }}</td>
             <td class="font-medium">高橋</td>
             <td>{{ $blog->updated_at }}</td>
             <td>

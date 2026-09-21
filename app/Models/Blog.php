@@ -19,4 +19,10 @@ class Blog extends Model {
     "image",
     "body"
   ];
+
+  // ⭐️ カテゴリーが親だということ
+  //    1つのBlogは、1つのCategoryに属する
+  public function category() {
+    return $this->belongsTo(Category::class);
+  }
 }
