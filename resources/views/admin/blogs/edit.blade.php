@@ -128,12 +128,36 @@
 
           <div class="mb-6">
             <label class="block text-sm font-medium mb-2">登場するねこ</label>
-            <!-- ✅ 登場するネコ -->
-            <select id="js-pulldown" class="mr-6 w-full" name="" multiple>
-              <option selected>Option 1</option>
-              <option>Option 2</option>
-              <option selected>Option 3</option>
-              <option>Option 4</option>
+            <!-- 
+              ✅ 登場するネコ 
+              name="cats[]" → 複数対応するために配列にする
+              multiple → 1つではなく複数の選択肢を選べるようにする
+                          optionは基本的に1つだけ選択可能
+            -->
+            <select 
+              id="js-pulldown" 
+              class="mr-6 w-full" 
+              name="cats[]" 
+              multiple
+            > 
+              <option value="">猫を選択してください</option>
+              <!-- 
+                in_array() → ある値が、配列の中に存在するか判定
+                in_array(3, [1, 2, 3]) → 3は[1, 2, 3] の中に存在するか判定
+
+                old("cats") ... 前回フォームから送られてきた入力値のこと
+                                old(A, B) → 前回入力されたAがあれば使う。なければBを使う
+                $blog->cats ... Blogモデルのcats()で関連づけてこの$blogに関連づいているねこを全て取得
+                $blog->cats->pluck("id") ... 取得した猫たちからidだけを取得する
+                all() ... pluck("id")の結果はCollection。
+                          all()でPHPの配列として取り出す
+              -->
+              @foreach($cats as $cat)
+                <option
+                  value="{{ $cat->id }}"
+                  @if(in_array($cat->id, old('cats', $blog->cats->pluck('id')->all()))) selected @endif
+                >{{ $cat->name }}</option>
+              @endforeach
             </select>
           </div>
         </div>

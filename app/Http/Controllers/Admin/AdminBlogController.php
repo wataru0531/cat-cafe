@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreBlogRequest;
 use App\Http\Requests\Admin\UpdateBlogRequest;
 use App\Models\Blog;
+use App\Models\Cat;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -69,11 +70,13 @@ class AdminBlogController extends Controller {
     // DBに探しに行かなくてもいい。
 
     $categories = Category::all();
+    $cats = Cat::all();
 
     return View("admin.blogs.edit", [
       // blogのキーがbladeファイルで$blogで使われる。
       "blog" => $blog, // $blogをViewで使えるようにする
       "categories" => $categories,
+      "cats" => $cats,
     ]);
   }
   
@@ -109,6 +112,11 @@ class AdminBlogController extends Controller {
 
     $blog->update($updateData); // DBを更新
                                 // → 一括更新なので、$fillableにimageを追加
+
+    // 今回選択されたねこたちをこのブログに関連づける。リレーションデータの更新を行う
+    // $blog->cats()->attach($updateData["cats"]); // → DBに追加するだけ
+    $blog->cats()->sync($updateData["cats"] ?? []); // 現在の関連付けを、今回選択した内容に合わせる
+                                              // → DBの中が最新に更新される
 
     return to_route("admin.blogs.index")->with("success", "ブログを更新しました。");
   }

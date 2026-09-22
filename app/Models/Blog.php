@@ -25,4 +25,11 @@ class Blog extends Model {
   public function category() {
     return $this->belongsTo(Category::class);
   }
+
+  // ✅ リレーション。多対多
+  // ブログ登録画面の、登録するねこの部分で使う
+  // withTimestamps → 中間テーブルに追加した内容のcreated_at、updated_atも入力できる
+  public function cats() {
+    return $this->belongsToMany(Cat::class)->withTimestamps();
+  }
 }
