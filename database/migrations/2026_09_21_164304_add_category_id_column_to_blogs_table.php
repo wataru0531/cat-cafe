@@ -16,10 +16,11 @@ return new class extends Migration {
       // ① nullableを設定する方法
       // $table->foreignId("category_id")->nullable()->after("id")->constrained();
     
-      // ② デフォルトのカテゴリーを設定する
+      // foreign() ... 外部キー。categoriesのidを入れるカラムをつくる
+      // default() ... デフォルトのカテゴリーを設定する
+      // constrained() → Laravelがここは自動でblogsテーブルのcategory_idとCategoriesのidと紐づける
+      //                 → Laravelには対象の命名規則があり、そこから予測できる
       $table->foreignId("category_id")->default(4)->after("id")->constrained();
-    
-    
   });
   }
 

@@ -59,9 +59,7 @@ class AdminBlogController extends Controller {
     return to_route("admin.blogs.index")->with("success", "ブログを投稿しました。");
   }
 
-  public function show(Blog $blog) {
-      //
-  }
+  public function show(Blog $blog) {}
 
   // ✅ 編集処理
   // → ルートモデル結合
@@ -106,8 +104,11 @@ class AdminBlogController extends Controller {
       $updateData["image"] = $request->file("image")->store("blogs", "public");
     }
 
+    // ✅ モデルでのリレーションに関する関数を呼び出してデータを取得、更新できるようにする
     // $blog->category ... Blogモデルのcategoryを発火。関連付けをしている
     // $updateData ... 送信されてきたカテゴリーのid。数字の1〜4
+    // associate() ... associate(3)で、この$blogが所属するCategoryのidを3にしてくださいということ
+    //                 → $blog->category_id = 3; に近い処理
     $blog->category()->associate($updateData["category_id"]);
 
     $blog->update($updateData); // DBを更新

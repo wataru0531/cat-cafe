@@ -23,6 +23,8 @@ class Blog extends Model {
   // ⭐️ カテゴリーが親だということ
   //    1つのBlogは、1つのCategoryに属する
   public function category() {
+    // belongsTo()とすることで、blogsのcategory_id と categoriesの idとが紐付けられる
+    // → Laravelが推測して関連づけが行われる。
     return $this->belongsTo(Category::class);
   }
 
