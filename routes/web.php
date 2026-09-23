@@ -5,6 +5,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\AdminBlogController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ContactController;
 
 // Route::get('/', function () {
@@ -30,3 +31,8 @@ Route::get("/admin/blogs/{blog}", [AdminBlogController::class, "edit"])->name("a
 Route::put("/admin/blogs/{blog}", [AdminBlogController::class, "update"])->name("admin.blogs.update");
 // ブログ削除
 Route::delete("/admin/blogs/{blog}", [AdminBlogController::class, "destroy"])->name("admin.blogs.destroy");
+
+
+// ユーザー関係
+Route::get("/admin/users/create", [UserController::class, "create"])->name("admin.users.create");
+Route::post("/admin/users/", [UserController::class, "store"])->name("admin.users.store");
