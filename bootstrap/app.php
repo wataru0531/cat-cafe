@@ -12,7 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // ✅ ミドルウェアの設定
+        // 未ログインユーザーをどこにリダイレクトするか
+        $middleware->redirectTo(fn() => route("admin.login"));
+
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

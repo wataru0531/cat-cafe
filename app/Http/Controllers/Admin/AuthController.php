@@ -16,16 +16,16 @@ class AuthController extends Controller {
 
   // ✅　ログイン処理
   public function login(Request $request) {
-    // バリデーション(フォームリクエストに書き換え可)
+    // バリデーションで検証 → 成功したらsessionに記録
     $credentials = $request->validate([
         'email' => ['required', 'email'],
         'password' => ['required'],
     ]);
 
-    // ログイン情報が正しいか
-    // Auth::attemptメソッドでログイン情報が正しいか検証
-    if (Auth::attempt($credentials)) {
-        // セッションを再生成する処理(セキュリティ対策)
+    if (Auth::attempt($credentials)) { // email、パスが正しいかどうかを検証
+        // セッションidを変更
+        // → $request->session() ... このHTTPリクエストにのってるセッションデータを取得する
+        //                           regenerateで再生成
         $request->session()->regenerate();
 
         // ミドルウェアに対応したリダイレクト(後述)
@@ -33,9 +33,10 @@ class AuthController extends Controller {
         return redirect()->intended('/admin/blogs');
     }
 
-    // ログイン情報が正しくない場合のみ実行される処理(return すると以降の処理は実行されないため)
+    // ログイン情報が正しくない場合のみ実行される処理
     // 一つ前のページ(ログイン画面)にリダイレクト
     // その際にwithErrorsを使ってエラーメッセージで手動で指定する
+    // → このエラーは、$errorsという形でセッションに入る
     // リダイレクト後のビュー内でold関数によって直前の入力内容を取得出来る項目をonlyInputで指定する
     return back()->withErrors([
         'email' => 'メールアドレスまたはパスワードが正しくありません',
@@ -44,13 +45,13 @@ class AuthController extends Controller {
 
   // ✅ ログアウト
   public function logout(Request $request) {
-    // ログアウト処理
-    Auth::logout();
-    // 現在使っているセッションを無効化(セキュリティ対策のため)
-    $request->session()->invalidate();
-    // セッションを無効化を再生成(セキュリティ対策のため)
+    Auth::logout(); // ログアウト。認証状態を解除
+
+    $request->session()->invalidate(); // 現在のセッションを無効化
+
+    // CSRFトークンを無効化して、新しいCSRFトークンを生成
     $request->session()->regenerateToken();
 
-    return redirect('/');
+    return redirect()->route("admin.login");
   }
 }

@@ -15,13 +15,16 @@ use App\Models\Blog;
 use App\Models\Cat;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 
 class AdminBlogController extends Controller {
   // ✅ ブログ一覧画面
   public function index() {
-    // $blogs = blog::all(); // Eloquent
+    // $user = Auth::user(); // ログイン中のユーザーを取得。セッションから
+
+    // $blogs = blog::all();
 
     // クエリビルダーの書き方。更新日時が新しいもの順に
     // → 単純に10件だけ取得
@@ -34,12 +37,17 @@ class AdminBlogController extends Controller {
 
     return view("admin.blogs.index", [ // Viewで変数が使えるようにする
       "blogs" => $blogs,
+      // "user" => $user,
     ]);
   }
 
   // ✅ ブログ投稿画面
   public function create() {
-    return view("admin.blogs.create");
+    $user = Auth::user();
+    
+    return view("admin.blogs.create", [
+      "user" => $user,
+    ]);
   }
 
 
@@ -66,6 +74,7 @@ class AdminBlogController extends Controller {
   //   Laravelに、URLに入っているidを使って、対応するBlogモデルを探して$blogに入れるように指示
   public function edit(Blog $blog) {
     // DBに探しに行かなくてもいい。
+    // $user = Auth::user();
 
     $categories = Category::all();
     $cats = Cat::all();
@@ -75,6 +84,7 @@ class AdminBlogController extends Controller {
       "blog" => $blog, // $blogをViewで使えるようにする
       "categories" => $categories,
       "cats" => $cats,
+      // "user" => $user,
     ]);
   }
   
