@@ -28,8 +28,11 @@ class AuthController extends Controller {
         //                           regenerateで再生成
         $request->session()->regenerate();
 
-        // ミドルウェアに対応したリダイレクト(後述)
-        // 下記はredirect('/admin/blogs')に類似
+        // ✅ http://127.0.0.1:8000/admin/blogs/1 にアクセスしたい
+        // → 最初はログイン画面に遷移させられる
+        // → email、passwordを入力後、ログインに成功したら、Laravelがログイン前にいこうとしていたURLを覚えて
+        //   いたらそのページに遷移する。セッションを利用している
+        //   もし覚えていないのであれば、/admin/blogs 遷移する
         return redirect()->intended('/admin/blogs');
     }
 
@@ -49,7 +52,8 @@ class AuthController extends Controller {
 
     $request->session()->invalidate(); // 現在のセッションを無効化
 
-    // CSRFトークンを無効化して、新しいCSRFトークンを生成
+    // CSRFトークンを無効化して、新しいCSRFトークンを生成してセッションに保存される
+    // → リダイレクト先のhtmlのcsrfに新しいcsrfトークンが入る
     $request->session()->regenerateToken();
 
     return redirect()->route("admin.login");
