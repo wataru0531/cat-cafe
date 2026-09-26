@@ -1,3 +1,12 @@
+
+
+<!-- 
+  default
+
+-->
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -6,6 +15,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <link rel="stylesheet" href="/css/tailwind/tailwind.min.css">
+
+    <!-- viteのビルド対象にする -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png">
     <script src="/js/main.js"></script>

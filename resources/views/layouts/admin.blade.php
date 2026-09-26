@@ -4,20 +4,31 @@
 
 -->
 
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <title>管理画面</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+    <link 
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
     <link rel="stylesheet" href="/css/admin/tailwind/tailwind.min.css">
     <link rel="stylesheet" href="/css/admin/select2.min.css">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png">
+    
+    <!-- viteのビルドの対象ファイルにする -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- 
+      viteのビルドの対象にしていない
+      → Viteで管理する必要がない形で直接読み込んでいる状態
+    -->
     <script src="/js/main.js"></script>
     <script src="/js/admin/jquery-3.6.0.slim.min.js"></script>
     <script src="/js/admin/select2.min.js"></script>
+
 </head>
 <body class="antialiased bg-body text-body font-body">
 <div>
