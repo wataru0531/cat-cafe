@@ -17,7 +17,8 @@ class Blog extends Model {
   protected $fillable = [
     "title",
     "image",
-    "body"
+    "body",
+    "category_id",
   ];
 
   // ⭐️ カテゴリーが親だということ
@@ -34,4 +35,5 @@ class Blog extends Model {
   public function cats() {
     return $this->belongsToMany(Cat::class)->withTimestamps();
   }
+
 }

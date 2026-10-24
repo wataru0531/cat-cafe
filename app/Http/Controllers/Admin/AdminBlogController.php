@@ -10,7 +10,7 @@
 // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
 // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
 // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// blogを作るとときに、カテゴリ、猫を選択できてDBに登録できるようにする。
+// blogのcreate時、カテゴリ、猫を選択できてDBに登録できるようにする。
 // → 中間テーブルか、それともユーザーテーブルか
 
 namespace App\Http\Controllers\Admin;
@@ -51,9 +51,13 @@ class AdminBlogController extends Controller {
   // ✅ ブログ投稿画面
   public function create() {
     $user = Auth::user();
-    
+    $categories = Category::all();
+    $cats = Cat::all();
+
     return view("admin.blogs.create", [
       "user" => $user,
+      "categories" => $categories,
+      "cats" =>  $cats,
     ]);
   }
 
@@ -71,9 +75,33 @@ class AdminBlogController extends Controller {
     // $blog->image = $savedImagePath; // パスを渡す。imageの内容を上書き
     // $blog->save(); // DBに保存
 
+    // $validated = $request->validated();
+    // $validated["image"] = $request->file("image")->store("blogs", "public"); // パスを保存、パスを返す
+    // Blog::create($validated);
+
+
     $validated = $request->validated();
+    $catIds = $validated["cats"] ?? [];
+
+    unset($validated[" cats"]); // → catsはblogsテーブルではないので取り除く
+
     $validated["image"] = $request->file("image")->store("blogs", "public"); // パスを保存、パスを返す
-    Blog::create($validated);
+    
+    // blogsテーブルにブログに新規作成
+    // 返された$blog ... データベースに新規保存されたブログの情報を持つ、Blogモデルのインスタンス(オブジェクト)
+    $blog = Blog::create($validated); 
+
+    // ⭐️ 中間テーブルに猫との関連付けを保存
+    // → このブログに対して、catIds(例えば、[1, 2])の関連付けを保存すると言う意味。
+    // sync() ... 多対多のリレーションにおける「関連付けを同期する」ためのメソッド
+    //            初めは[1, 3]だったが、更新後に[1, 2]になればsyncにより自動で更新される。
+    $blog->cats()->sync($catIds); 
+
+    // ✅ なぜLaravelは blog_cat が中間テーブルだとわかるのか？
+    // return $this->belongsToMany(Cat::class)->withTimestamps();
+    // この部分で、
+    // belongsToMany(Cat::class) によって、Laravelに「BlogとCatは多対多の関係だ」と伝えている。
+    // Laravelは、その情報と命名規則を使って、中間テーブルの名前や外部キーを推測することで理解している。
 
     return to_route("admin.blogs.index")->with("success", "ブログを投稿しました。");
   }
