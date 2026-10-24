@@ -12,7 +12,7 @@ services:
       - mysql:/var/lib/mysql # Docker領域の/var/lib/mysql を
                               # ボリュームのmysqlに保存しておく 
     environment:
-      - MYSQL_DATABASE=${DB_DATABASE} # 起動時に作成するデータベース名
+      - MYSQL_DATABASE=${DB_DATABASE} # 起動時に作成するデータベース名。任意
       - MYSQL_USER=${DB_USERNAME}     # 新しく作成するユーザー名
       - MYSQL_PASSWORD=${DB_PASSWORD}  # パスワード
       - MYSQL_RANDOM_ROOT_PASSWORD=1 # MySQLコンテナ起動時にDockerがランダムなrootパスワードを作成

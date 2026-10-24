@@ -7,6 +7,7 @@
 @extends('layouts.admin')
 
 @section('content')
+
 <section class="py-8">
   <div class="container px-4 mx-auto">
     <div class="py-4 bg-white rounded">

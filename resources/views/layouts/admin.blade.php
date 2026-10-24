@@ -146,16 +146,32 @@
                     など書かなくていい。
         -->
         <span class="text-sm text-gray-500">
-          {{ \Auth::user()->name }}
+          {{ Illuminate\Support\Facades\Auth::user()->name }}
+          {{-- {{ \Auth::user()->name }} --}}
+          {{-- <span class="text-sm text-gray-500">{{ $user->name }}</span> --}}
         </span>
         <img 
+          class="ml-3 w-10 h-10 rounded-full object-cover object-right" 
+          src="{{ Illuminate\Support\Facades\Auth::user()->image
+            ? asset('storage/' . Illuminate\Support\Facades\Auth::user()->image)
+            : asset('/images/placeholders/admin/user.jpg') 
+          }}"
+          alt=""
+        >
+        
+        {{-- <img 
           class="ml-3 w-10 h-10 rounded-full object-cover object-right" 
           src="{{ \Auth::user()->image
             ? asset('storage/' . \Auth::user()->image)
             : asset('/images/placeholders/admin/user.jpg') 
           }}"
           alt=""
-        >
+        > --}}
+        {{-- <img 
+          class="ml-3 w-10 h-10 rounded-full object-cover object-right" 
+          src="{{ asset('storage/' . $user->image) }}"
+          alt=""
+        > --}}
       </div>
     </section>
     <!-- ▲▲▲▲共通ヘッダー(PC)▲▲▲▲　-->

@@ -6,6 +6,13 @@
 //    管理者向けにブログ機能を担当させるController
 //    管理者がアクセスしたときに表示させる画面
 
+
+// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+// blogを作るとときに、カテゴリ、猫を選択できてDBに登録できるようにする。
+// → 中間テーブルか、それともユーザーテーブルか
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -56,13 +63,17 @@ class AdminBlogController extends Controller {
   public function store(StoreBlogRequest $request) {
     // 画像を保存
     // blogs → フォルダ名。/storage/app/public/blogs/ に保存
-    $savedImagePath = $request->file("image")->store("blogs", "public"); 
+    // $savedImagePath = $request->file("image")->store("blogs", "public"); 
     
     // ブログモデルを作る
     // $request->validated() ... バリデーション済みの入力データを取得
-    $blog = new Blog($request->validated()); // 入力データからblogモデルを作る
-    $blog->image = $savedImagePath; // パスを渡す。imageの内容を上書き
-    $blog->save(); // DBに保存
+    // $blog = new Blog($request->validated()); // 入力データからblogモデルを作る
+    // $blog->image = $savedImagePath; // パスを渡す。imageの内容を上書き
+    // $blog->save(); // DBに保存
+
+    $validated = $request->validated();
+    $validated["image"] = $request->file("image")->store("blogs", "public"); // パスを保存、パスを返す
+    Blog::create($validated);
 
     return to_route("admin.blogs.index")->with("success", "ブログを投稿しました。");
   }

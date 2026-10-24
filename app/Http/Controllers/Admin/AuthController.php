@@ -22,18 +22,18 @@ class AuthController extends Controller {
         'password' => ['required'],
     ]);
 
-    if (Auth::attempt($credentials)) { // email、パスが正しいかどうかを検証
-        // セッションidを変更
-        // → $request->session() ... このHTTPリクエストにのってるセッションデータを取得する
-        //                           regenerateで再生成
-        $request->session()->regenerate();
+    if(Auth::attempt($credentials)) { // email、パスが正しいかどうかを検証
+      // セッションidを変更
+      // → $request->session() ... このHTTPリクエストにのってるセッションデータを取得する
+      //                           regenerateで再生成
+      $request->session()->regenerate();
 
-        // ✅ http://127.0.0.1:8000/admin/blogs/1 にアクセスしたい
-        // → 最初はログイン画面に遷移させられる
-        // → email、passwordを入力後、ログインに成功したら、Laravelがログイン前にいこうとしていたURLを覚えて
-        //   いたらそのページに遷移する。セッションを利用している
-        //   もし覚えていないのであれば、/admin/blogs 遷移する
-        return redirect()->intended('/admin/blogs');
+      // ✅ http://127.0.0.1:8000/admin/blogs/1 にアクセスしたい
+      // → 最初はログイン画面に遷移させられる
+      // → email、passwordを入力後、ログインに成功したら、Laravelがログイン前にいこうとしていたURLを覚えて
+      //   いたらそのページに遷移する。セッションを利用している
+      //   もし覚えていないのであれば、/admin/blogs 遷移する
+      return redirect()->intended('/admin/blogs');
     }
 
     // ログイン情報が正しくない場合のみ実行される処理
