@@ -10,8 +10,9 @@
 // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
 // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
 // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// blogのcreate時、カテゴリ、猫を選択できてDBに登録できるようにする。
-// → 中間テーブルか、それともユーザーテーブルか
+// blogのcreate時、 確認
+// 認証で、ログインユーザーの画像が表示されない。
+// コンソールエラー
 
 namespace App\Http\Controllers\Admin;
 
@@ -30,7 +31,6 @@ class AdminBlogController extends Controller {
   // ✅ ブログ一覧画面
   public function index() {
     // $user = Auth::user(); // ログイン中のユーザーを取得。セッションから
-
     // $blogs = blog::all();
 
     // クエリビルダーの書き方。更新日時が新しいもの順に
@@ -50,6 +50,7 @@ class AdminBlogController extends Controller {
 
   // ✅ ブログ投稿画面
   public function create() {
+    // dd("create!!");
     $user = Auth::user();
     $categories = Category::all();
     $cats = Cat::all();
@@ -60,7 +61,6 @@ class AdminBlogController extends Controller {
       "cats" =>  $cats,
     ]);
   }
-
 
   // ✅ ブログ投稿処理
   // StoreBlogRequest → バリデーションを定義したクラス
@@ -75,23 +75,18 @@ class AdminBlogController extends Controller {
     // $blog->image = $savedImagePath; // パスを渡す。imageの内容を上書き
     // $blog->save(); // DBに保存
 
-    // $validated = $request->validated();
-    // $validated["image"] = $request->file("image")->store("blogs", "public"); // パスを保存、パスを返す
-    // Blog::create($validated);
-
-
     $validated = $request->validated();
     $catIds = $validated["cats"] ?? [];
 
-    unset($validated[" cats"]); // → catsはblogsテーブルではないので取り除く
+    unset($validated["cats"]); // → catsはblogsテーブルではないので取り除く
 
     $validated["image"] = $request->file("image")->store("blogs", "public"); // パスを保存、パスを返す
     
-    // blogsテーブルにブログに新規作成
+    // blogsテーブルにブログを新規作成
     // 返された$blog ... データベースに新規保存されたブログの情報を持つ、Blogモデルのインスタンス(オブジェクト)
     $blog = Blog::create($validated); 
 
-    // ⭐️ 中間テーブルに猫との関連付けを保存
+    // ⭐️ 中間テーブルに猫との関連付けのデータを保存
     // → このブログに対して、catIds(例えば、[1, 2])の関連付けを保存すると言う意味。
     // sync() ... 多対多のリレーションにおける「関連付けを同期する」ためのメソッド
     //            初めは[1, 3]だったが、更新後に[1, 2]になればsyncにより自動で更新される。

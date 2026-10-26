@@ -5,11 +5,15 @@
 // ✅ Mailpit
 // http://localhost:8025/ でメールの送信内容を確認可能
 
+// ✅ TODO
+// フリガナは、名字と名前で半角、全角、どちらも開けてもいい
+
 
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactRequest;
 use App\Mail\ContactAdminMail;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -35,6 +39,9 @@ class ContactController extends Controller {
     // dd($validated);
     
     $validated = $request->validated(); // ContactRequest.phpでバリデーションを使う
+
+    // DBに保存
+    Contact::create($validated);
 
     // Log::debug($validated['name']. 'さんよりお問い合わせがありました');
     

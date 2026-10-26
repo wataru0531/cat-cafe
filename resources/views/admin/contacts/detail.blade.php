@@ -1,3 +1,9 @@
+
+{{-- 
+  ✅ お問い合わせ詳細ページ
+
+--}}
+
 @extends('layouts.admin')
 
 @section('content')
