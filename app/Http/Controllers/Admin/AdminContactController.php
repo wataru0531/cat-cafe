@@ -21,16 +21,18 @@ use Illuminate\Http\Request;
 
 class AdminContactController extends Controller {
   // お問い合わせ一覧
-  public function index()
-  {
-      $contacts = Contact::latest()->get();
+  public function index() {
+    $contacts = Contact::latest()->get();
 
-      return view('admin.contacts.index', compact('contacts'));
+    return view('admin.contacts.index', compact('contacts'));
   }
 
   // お問い合わせ詳細
-  public function detail(Contact $contact)
-  {
-      return view('admin.contacts.detail', compact('contact'));
+  public function detail(Contact $contact) {
+    return view('admin.contacts.detail', compact('contact'));
   }
+
+  // 削除
+
+  // 対応済みかどうかの確認(緑のチェックマーク)
 }
