@@ -63,6 +63,9 @@
                 </a>
 
                 <form 
+                  {{-- 
+                    ルートのblog変数に $blog->id を渡す 
+                  --}}
                   action="{{ route('admin.blogs.destroy', ['blog' => $blog->id]) }}"
                   method="POST"
                 >
