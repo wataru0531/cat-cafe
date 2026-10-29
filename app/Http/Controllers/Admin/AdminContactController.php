@@ -3,8 +3,6 @@
 // ✅ 管理者向けのお問い合わせのコントローラ
 // ページネーション
 
-// 対応済みかどうかチェックマーク
-// → contactsテーブルに is_completed
 
 namespace App\Http\Controllers\Admin;
 
@@ -27,9 +25,11 @@ class AdminContactController extends Controller {
     return view('admin.contacts.index', compact('contacts'));
   }
 
-  // お問い合わせ詳細
-  public function detail(Contact $contact) {
-    return view('admin.contacts.detail', compact('contact'));
+  // ✅ 詳細ページ
+  public function show(string $contactId) {
+    $contact = Contact::findOrFail($contactId);
+
+    return view('admin.contacts.show', compact('contact'));
   }
 
   // 削除
@@ -49,12 +49,28 @@ class AdminContactController extends Controller {
   public function toggleCompleted(Request $request, Contact $contact) {
     // $contact = Contact::findOrFail($id); // ルートバインディングを使わずに、ルートから取得する
 
-    // チェックあり → is_completed = true。なので DB には 1
     $contact->is_completed = $request->has("is_completed");
 
     $contact->save(); // MySQLに保存
 
     return to_route("admin.contacts.index")->with("success", "対応済みかどうかを変更しました。");
+  }
+
+  // ✅ 対応済みかどうか、管理者メモを更新
+  public function updateAdminDetails(Request $request, string $contactId) {
+    $contact = Contact::findOrFail($contactId);
+    $validated = $request->validate([ 
+      "is_completed" => ["required", "boolean"], // boolean → 値が真偽値として認められるかどうかを検証
+      "admin_note" => ["nullable", "string", "max:5000"],
+    ]);
+
+    $contact->update($validated); // DB更新
+
+    return to_route("admin.contacts.show", [
+      "contactId" => $contact->id,
+    ])->with("success", "お問い合わせを更新しました。");
+
+
   }
 
 }

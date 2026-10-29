@@ -5,8 +5,8 @@
 // トップページ
 // ブログ一覧ページ
 // ブログ詳細ページ
-// お問い合わせ一覧ページ ⭐️ いまここ
-// お問い合わせ詳細ページ
+// お問い合わせ一覧ページ 
+// お問い合わせ詳細ページ ⭐️ ここから
 
 // 猫の一覧ページ
 // 猫の詳細ページ
@@ -57,28 +57,26 @@ Route::delete("/admin/blogs/{blog}", [AdminBlogController::class, "destroy"])->n
 Route::get("/admin/users/create", [UserController::class, "create"])->name("admin.users.create")->middleware("auth");
 Route::post("/admin/users/", [UserController::class, "store"])->name("admin.users.store")->middleware("auth");
 
+// 管理者向けお問い合わせ画面
+// お問い合わせの一覧
+Route::get("/admin/contacts", [AdminContactController::class, "index"])->name("admin.contacts.index")->middleware("auth");
+Route::delete("/admin/contacts/{contact}", [AdminContactController::class, "destroy"])->name("admin.contacts.destroy");
+Route::patch("/admin/contacts/{contact}/toggle-completed", [AdminContactController::class, "toggleCompleted"])->name("admin.contacts.toggleCompleted");
+// → どの処理にアクセスしているかがわかりやすいので、toggle-completeをつける
+
+// 詳細
+Route::get("/admin/contacts/{contactId}", [AdminContactController::class, "show"])->name("admin.contacts.show")->middleware("auth");
+// 更新(対応済みかどうか、管理者のコメント)
+Route::patch(
+  "/admin/contacts/{contactId}/admin-details",
+  [AdminContactController::class, "updateAdminDetails"],
+)->name("admin.contacts.updateAdminDetails")->middleware("auth");
 
 
 // 認証関係
 Route::get("/admin/login", [AuthController::class, "showLoginForm"])->name("admin.login")->middleware("guest");
 Route::post("/admin/login", [AuthController::class, "login"])->middleware("guest");
 Route::post("/admin/logout", [AuthController::class, "logout"])->name("admin.logout")->middleware("auth");
-
-// 管理者向けお問い合わせ画面
-// お問い合わせの一覧
-Route::get("/admin/contacts", [AdminContactController::class, "index"])->name("admin.contacts.index")->middleware("auth");
-Route::delete("/admin/contacts/{contact}", [AdminContactController::class, "destroy"])->name("admin.contacts.destroy");
-Route::patch("/admin/contacts/{contact}/toggle-completed", [AdminContactController::class, "toggleCompleted"])->name("admin.contacts.toggleCompleted");
-// → ⭐️TODO 文法
-
-
-
-// 一覧から詳細を開く
-Route::get("/admin/contacts/{contact}", [AdminContactController::class, "detail"])->name("admin.contacts.detail")->middleware("auth");
-
-
-// ① お問い合わせ内容をデータベースに保存する。
-// ② 
 
 
 

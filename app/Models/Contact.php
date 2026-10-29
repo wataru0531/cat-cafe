@@ -12,6 +12,8 @@ class Contact extends Model {
     "phone",
     "email",
     "body",
+    "is_completed",
+    "admin_note",
   ];
   
 }
