@@ -1,6 +1,6 @@
 
 <!-- 
-  管理画面
+  管理画面のレイアウト
 
 -->
 
@@ -44,8 +44,8 @@
       </button>
     </div>
   </nav>
-    
   <!-- ▲▲▲▲共通ヘッダー(SP)▲▲▲▲　-->
+
   <!-- ▼▼▼▼共通サイドナビ▼▼▼▼　-->
   <div class="hidden lg:block navbar-menu relative z-50">
     <div class="navbar-backdrop fixed lg:hidden inset-0 bg-gray-800 opacity-10"></div>
@@ -150,10 +150,21 @@
           {{-- {{ \Auth::user()->name }} --}}
           {{-- <span class="text-sm text-gray-500">{{ $user->name }}</span> --}}
         </span>
+        {{-- 
+          画像は、バックエンドの、storage/app/public/users などに保存される
+          参照する時は、フロントの、storage/users/ファイル名、から参照して表示
+          → リンクをはる。
+          → バックエンド、フロントエンドで同期したい画像
+
+          public/imagesフォルダ 
+          → フロント、バックエンド からも参照が可能。
+          → ロゴなどの固定的な画像
+
+        --}}
         <img 
           class="ml-3 w-10 h-10 rounded-full object-cover object-right" 
           src="{{ Illuminate\Support\Facades\Auth::user()->image
-            ? asset('storage/' . Illuminate\Support\Facades\Auth::user()->image)
+            ? asset('/storage/users/' . Illuminate\Support\Facades\Auth::user()->image)
             : asset('/images/placeholders/admin/user.jpg') 
           }}"
           alt=""

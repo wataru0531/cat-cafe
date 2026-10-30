@@ -50,7 +50,7 @@
                 category ... Blogクラスのcategory()で命名されている
               -->
               <td class="font-medium">{{ $blog->category->name }}</td>
-              <td class="font-medium">高橋</td>
+              <td class="font-medium">{{ Illuminate\Support\Facades\Auth::user()->name }}</td>
               <td>{{ $blog->updated_at }}</td>
               <td>
                 <div class="flex">
@@ -122,8 +122,5 @@
       </svg>
     </a>
   </div> -->
-  
-
-  
 </section>
 @endsection

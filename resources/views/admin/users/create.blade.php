@@ -100,9 +100,7 @@
               class="block w-full px-4 py-3 mb-2 text-sm bg-white border rounded" 
               name="introduction" 
               rows="2"
-            >
-              {{ old('introduction') }}
-            </textarea>
+            >{{ old('introduction') }}</textarea>
           </div>
         </div>
       </form>
