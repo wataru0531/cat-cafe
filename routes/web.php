@@ -1,27 +1,71 @@
 <?php
 
-// ⭐️これから⭐️これから⭐️これから⭐️これから⭐️これから⭐️これから⭐️これから
-// ⭐️これから⭐️これから⭐️これから⭐️これから⭐️これから⭐️これから⭐️これから
-// トップページ
-// ブログ一覧ページ
-// ブログ詳細ページ
-// お問い合わせ一覧ページ 
-// お問い合わせ詳細ページ ⭐️ ここから
+// ✅ 一般ユーザー向け画面
+// ☑️ contact indexページ
+// ☑️ contact completeページ
+// blogs indexページ
+// blogs detailsページ
+// cats indexページ
+// cats detailsページ → viewファイルなし
+// ↓ 下記は教材にはない
+// category 一覧ページ → ページにするか、どこかにパーツとしてリンクさせるか
+//                     カテゴリーをクリックするとそのカテゴリーに属するブログのみ一覧表示など
+// category 詳細ページ
 
-// ユーザー一覧ページ
-// ✅ ユーザー作成ページ
+// 404エラ- error/404.blade.php
+// 500エラー error/500.blade.php
+// 利用規約ページ terms.blade.php
+// プライバシーポリシー privacy.blade.php
 
-// 猫の一覧ページ
-// 猫の詳細ページ
+// サイドバー → リンクを埋める
+// → ユーザー管理 /admin/users/index.blade.php
+//   ☑️ ブログ管理 
+//   ☑️ お問い合わせ管理
+//   ファイルライブラリ → アップロード済みファイルを一覧・管理する
+//   設定
+//   ☑️ ログアウト処理
 
-// resources/web.php
+
+// ✅ 管理画面
+// ☑️ blogs indexページ
+// ☑️ blogs createページ
+// ☑️ blogs editページ
+// ☑️ contacts indexページ
+// ☑️ contacts 詳細ページ
+// ☑️ users createページ
+// users 一覧ページ → viewファイルなし
+// users detailsページ → viewファイルなし
+// users 編集ページ
+// category 作成ページ admin/cats/create.blade.php
+// category 編集ページ admin/cats/edit.blade.php
+
+// ダッシュボード admin/dashboard.blade.php
+// → ブログ投稿数、登録ユーザー数、未対応のお問い合わせ数、最新のブログ投稿、最新のお問い合わせ
+//   などを表示
+
+
+// ✅ 認証関係
+// ☑️ ログインページ
+
+// ✅ すべてのことに気をつけること
+// ページネーション	ブログやユーザーの一覧を分割
+// 検索機能	ブログ・ユーザーの検索
+// 絞り込み	カテゴリーやステータスで絞り込む
+// ソート	投稿日・更新日などで並び替え
+// バリデーション	入力値のチェック
+// 認可	管理者以外が管理画面に入れないようにする
+// CSRF対策	不正なリクエストへの対策
+// 論理削除	データを残したまま削除扱いにする
+// 画像アップロード	ブログやユーザー画像の登録
+// フラッシュメッセージ	登録・更新・削除の成功通知
+
 
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\ContactController;
 
 
@@ -58,8 +102,9 @@ Route::put("/admin/blogs/{blog}", [AdminBlogController::class, "update"])->name(
 Route::delete("/admin/blogs/{blog}", [AdminBlogController::class, "destroy"])->name("admin.blogs.destroy")->middleware("auth");
 
 // ユーザー関係
-Route::get("/admin/users/create", [UserController::class, "create"])->name("admin.users.create")->middleware("auth");
-Route::post("/admin/users/", [UserController::class, "store"])->name("admin.users.store")->middleware("auth");
+Route::get("/admin/users", [AdminUserController::class, "index"])->name("admin.users.index")->middleware("auth");
+Route::get("/admin/users/create", [AdminUserController::class, "create"])->name("admin.users.create")->middleware("auth");
+Route::post("/admin/users/", [AdminUserController::class, "store"])->name("admin.users.store")->middleware("auth");
 
 // 管理者向けお問い合わせ画面
 // お問い合わせの一覧
