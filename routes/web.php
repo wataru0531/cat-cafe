@@ -33,11 +33,13 @@
 // ☑️ contacts indexページ
 // ☑️ contacts 詳細ページ
 // ☑️ users createページ
-// users 一覧ページ → viewファイルなし
-// users detailsページ → viewファイルなし
+// users 一覧ページ → viewファイルまだ
+// users detailsページ → viewファイルまだ
 // users 編集ページ
+// users 削除機能をつける。確認画面も
 // category 作成ページ admin/cats/create.blade.php
 // category 編集ページ admin/cats/edit.blade.php
+
 
 // ダッシュボード admin/dashboard.blade.php
 // → ブログ投稿数、登録ユーザー数、未対応のお問い合わせ数、最新のブログ投稿、最新のお問い合わせ
@@ -105,6 +107,12 @@ Route::delete("/admin/blogs/{blog}", [AdminBlogController::class, "destroy"])->n
 Route::get("/admin/users", [AdminUserController::class, "index"])->name("admin.users.index")->middleware("auth");
 Route::get("/admin/users/create", [AdminUserController::class, "create"])->name("admin.users.create")->middleware("auth");
 Route::post("/admin/users/", [AdminUserController::class, "store"])->name("admin.users.store")->middleware("auth");
+Route::get("/admin/users/{userId}", [AdminUserController::class, "edit"])->name("admin.users.edit")->middleware("auth");
+Route::put('/admin/users/{userId}', [AdminUserController::class, "update"])->name("admin.users.update")->middleware("auth");
+Route::delete("/admin/users/{userId}", [AdminUserController::class, "destroy"])->name("admin.users.destroy")->middleware("auth");
+
+
+
 
 // 管理者向けお問い合わせ画面
 // お問い合わせの一覧

@@ -7,9 +7,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
+use App\Http\Requests\Admin\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdminUserController extends Controller {
   public function index() {
@@ -39,30 +41,46 @@ class AdminUserController extends Controller {
     return back()->with("success", "ユーザー登録しました。");
   }
 
-  /**
-   * Display the specified resource.
-   */
-  public function show(User $user) {
-      //
+  // 詳細ページ → ✅ TODO 作るかどうか検討
+  public function show(User $user) {}
+
+  // 編集ページ
+  public function edit(string $userId) {
+    $user = User::findOrFail($userId);
+
+    return view("admin.users.edit", [
+      "user" => $user
+    ]);
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   */
-  public function edit(User $user) {
-      //
+  // 更新
+  public function update(UpdateUserRequest $request, string $userId) {
+    $user = User::findOrFail($userId);
+    $updateData = $request->validated(); // バリデーション適用
+
+    // 画像の処理
+    if($request->has("image")) {
+      Storage::dist("public")->delete($user->image);
+
+      // storage/app/public/users/ のLaravelプロジェクト内に保存
+      $updateData['image'] = $request->file("image")->store("users", "public");
+    }
+
+    // パスワードの処理
+    if(!empty($updateData['password'])) {
+      $updateData['password'] = Hash::make($updateData['password']);
+    } else {
+      unset($updateData['password']);
+    }
+
+    $user->update($updateData); // DBを上書き更新
+    return to_route("admin.user.index")->with("success", "ユーザーを更新しました。");
   }
 
-  /**
-   * Update the specified resource in storage.
-   */
-  public function update(Request $request, User $user) {
-      //
-  }
+  
 
-  /**
-   * Remove the specified resource from storage.
-   */
+
+  // 削除
   public function destroy(User $user) {
       //
   }

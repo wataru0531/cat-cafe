@@ -20,7 +20,7 @@ class UpdateBlogRequest extends FormRequest {
     return [
       "title" => ["required", "max:255"],
       "image" => [
-        "nullable", // ⭐️ 省略可能にする(更新時)
+        "nullable", // ⭐️ 省略可能にする(更新時だけ)
         "file",  // ファイルであること。アップロードされたファイルとして有効かどうか
         "image", // 画像ファイルであること。画像として認識できるか形式かどうか
         // → ファイルとして有効か？そして、そのファイルが画像か？を確認する
@@ -40,7 +40,6 @@ class UpdateBlogRequest extends FormRequest {
       // distinct ... 同じ値が重複していないか
       // exists:cats,id ... catsテーブルのidカラムにその値が本当に存在するかどうか。
       "cats.*" => ["distinct", "exists:cats,id"],
-
     ];
   }
 }

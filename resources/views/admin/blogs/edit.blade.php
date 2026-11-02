@@ -66,7 +66,7 @@
               <img 
                 id="previewImage" 
                 src="{{ asset('storage/' . $blog->image) }}" 
-                data-noimage="{{ asset('storage/' . $blog->image) }}" 
+                data-noimage="images/admin/noimage.jpg" 
                 alt="" 
                 class="rounded shadow-md w-64"
               >
