@@ -35,16 +35,19 @@
               <dt>メールアドレス</dt>
               <dd>{{ $user->email }}</dd>
             </div>
-            <div>
+
+            {{-- パスワードは表示しない --}}
+            {{-- <div>
               <dt>パスワード</dt>
               <dd>{{ $user->password }}</dd>
-            </div>
+            </div> --}}
+
             <div>
               <dt>画像:</dt>
               <dd>
                 <img
                   class="w-12 h-12 object-cover rounded-full"
-                  src="{{ asset('storage/users/' . $user->image) }}" 
+                  src="{{ asset('storage/' . $user->image) }}" 
                   alt="ユーザーの画像"
                 >
               </dd>

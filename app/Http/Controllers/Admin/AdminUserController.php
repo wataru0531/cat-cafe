@@ -60,9 +60,10 @@ class AdminUserController extends Controller {
 
     // 画像の処理
     if($request->has("image")) {
-      Storage::dist("public")->delete($user->image);
+      Storage::disk("public")->delete($user->image);
 
       // storage/app/public/users/ のLaravelプロジェクト内に保存
+      // ⭐️ このとき、imageのurlの先頭に users/ がついてDBに保存される。
       $updateData['image'] = $request->file("image")->store("users", "public");
     }
 
@@ -70,14 +71,12 @@ class AdminUserController extends Controller {
     if(!empty($updateData['password'])) {
       $updateData['password'] = Hash::make($updateData['password']);
     } else {
-      unset($updateData['password']);
+      unset($updateData['password']); // なければパスワードは更新対象から外す
     }
 
     $user->update($updateData); // DBを上書き更新
-    return to_route("admin.user.index")->with("success", "ユーザーを更新しました。");
+    return to_route("admin.users.index")->with("success", "ユーザーのデータを更新しました。");
   }
-
-  
 
 
   // 削除

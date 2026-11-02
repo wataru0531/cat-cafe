@@ -4,7 +4,8 @@
   ユーザー編集画面
 
   ✅ TODO 
-  パスワードを表示するかどうするか
+  ユーザーデータを削除する
+  → 一度に削除せずに、確認の何かを出す
 -->
 
 @extends('layouts.admin')
@@ -69,7 +70,7 @@
           </div>
 
           <div class="mb-6">
-            <label class="block text-sm font-medium mb-2" for="password">パスワード</label>
+            <label class="block text-sm font-medium mb-2" for="password">パスワード(更新)</label>
             {{-- 
               パスワードはキャッシュに保持しない 
               既存のパスワードは表示しない。
@@ -100,7 +101,7 @@
             <div class="flex items-end">
               <img 
                 id="previewImage" 
-                src="{{ asset('storage/users/' . $user->image) }}" 
+                src="{{ asset('storage/' . $user->image) }}" 
                 data-noimage="/images/admin/noimage.jpg" 
                 alt="" 
                 class="rounded-full shadow-md w-32"
