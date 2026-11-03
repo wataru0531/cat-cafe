@@ -2,6 +2,9 @@
 <!-- 
   create.blade.php
   ユーザー作成画面
+
+  ✅ TODO
+  パスワードの部分を、クリックしたらtype="password"からtype="text"に変更
 -->
 
 @extends('layouts.admin')
