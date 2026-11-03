@@ -32,7 +32,10 @@
           <!-- 
             ✅ form
           -->
-          <form action="{{ route('admin.login') }}" method="POST">
+          <form 
+            action="{{ route('admin.login') }}"
+            method="POST"
+          >
             @csrf
             <div class="flex mb-4 px-4 bg-blueGray-50 rounded">
               <!-- email -->
@@ -68,6 +71,11 @@
             </div>
             <button type="submit" class="block w-full p-4 text-center text-xs text-white font-semibold leading-none bg-blue-600 hover:bg-blue-700 rounded">ログイン</button>
           </form>
+          {{-- <div class="mt-5 text-right">
+            <a 
+              href="{{ route('admin.users.create') }}"
+              class="text-sm text-blue-500 hover:text-blue-700">新規登録はこちら</a>
+          </div> --}}
         </div>
       </div>
     </div>

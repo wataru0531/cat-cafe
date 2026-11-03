@@ -103,10 +103,10 @@ Route::put("/admin/blogs/{blog}", [AdminBlogController::class, "update"])->name(
 // ブログ削除
 Route::delete("/admin/blogs/{blog}", [AdminBlogController::class, "destroy"])->name("admin.blogs.destroy")->middleware("auth");
 
-// ユーザー関係
+// ユーザー関係 ->middleware("auth")
 Route::get("/admin/users", [AdminUserController::class, "index"])->name("admin.users.index")->middleware("auth");
-Route::get("/admin/users/create", [AdminUserController::class, "create"])->name("admin.users.create")->middleware("auth");
-Route::post("/admin/users/", [AdminUserController::class, "store"])->name("admin.users.store")->middleware("auth");
+Route::get("/admin/users/create", [AdminUserController::class, "create"])->name("admin.users.create");
+Route::post("/admin/users/", [AdminUserController::class, "store"])->name("admin.users.store");
 Route::get("/admin/users/{userId}", [AdminUserController::class, "edit"])->name("admin.users.edit")->middleware("auth");
 Route::put('/admin/users/{userId}', [AdminUserController::class, "update"])->name("admin.users.update")->middleware("auth");
 Route::delete("/admin/users/{userId}", [AdminUserController::class, "destroy"])->name("admin.users.destroy")->middleware("auth");

@@ -80,7 +80,11 @@ class AdminUserController extends Controller {
 
 
   // 削除
-  public function destroy(User $user) {
-      //
+  public function destroy(string $userId) {
+    $user = User::findOrFail($userId);
+    $user->delete(); // DBから削除
+    Storage::disk("public")->delete($user->image); // 対象ユーザーの画像を削除
+
+    return to_route("admin.users.index")->with("success", "ユーザーを削除しました。");
   }
 }
