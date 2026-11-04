@@ -4,8 +4,8 @@
   ユーザー編集画面
 
   ✅ TODO 
-  ユーザーデータを削除する
-  → 一度に削除せずに、確認の何かを出す
+  ・パスワードの部分を、クリックしたらtype="password"からtype="text"に変更
+    → createページも
 -->
 
 @extends('layouts.admin')
