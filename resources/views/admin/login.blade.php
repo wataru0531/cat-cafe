@@ -77,8 +77,8 @@
                 id="togglePassword"
                 type="button"
                 class="ml-4 outline-none focus:outline-none"
-                area-label="パスワードを表示する"
-                area-pressed="false"
+                aria-label="パスワードを表示する"
+                aria-pressed="false"
               >
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
