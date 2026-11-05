@@ -1,6 +1,7 @@
 <?php
-
+////////////////////////////////
 // ✅ 一般ユーザー向け画面
+///////////////////////////////
 // ☑️ contact indexページ
 // ☑️ contact completeページ
 // blogs indexページ
@@ -12,8 +13,8 @@
 //                     カテゴリーをクリックするとそのカテゴリーに属するブログのみ一覧表示など
 // category 詳細ページ
 
-// 404エラ- error/404.blade.php
-// 500エラー error/500.blade.php
+// 404エラ- errors/404.blade.php
+// 500エラー errors/500.blade.php
 // 利用規約ページ terms.blade.php
 // プライバシーポリシー privacy.blade.php
 
@@ -25,28 +26,33 @@
 //   設定
 //   ☑️ ログアウト処理
 
-
+/////////////////////////////
 // ✅ 管理画面
+/////////////////////////////
 // ☑️ blogs indexページ
 // ☑️ blogs createページ
 // ☑️ blogs editページ
 // ☑️ contacts indexページ
 // ☑️ contacts 詳細ページ
 // ☑️ users createページ
-// users 一覧ページ → viewファイルまだ
-// users detailsページ → viewファイルまだ
-// users 編集ページ
-// users 削除機能をつける。確認画面も
+// ☑️ users 一覧ページ → viewファイルまだ
+// ☑️ users detailsページ → viewファイルまだ
+// ☑️ users 編集ページ
+// ☑️ users 削除機能をつける。+ 確認モーダル
+// category 一覧ページ admin/cats/index.blade.php
 // category 作成ページ admin/cats/create.blade.php
 // category 編集ページ admin/cats/edit.blade.php
-
+// → category 削除機能も付帯。モーダル
 
 // ダッシュボード admin/dashboard.blade.php
 // → ブログ投稿数、登録ユーザー数、未対応のお問い合わせ数、最新のブログ投稿、最新のお問い合わせ
 //   などを表示
 
+// ☑️ 403エラー errors/403.blade.php。アクセス禁止のページ
 
+//////////////////////////////
 // ✅ 認証関係
+/////////////////////////////
 // ☑️ ログインページ
 
 // ✅ すべてのことに気をつけること
@@ -103,14 +109,16 @@ Route::put("/admin/blogs/{blog}", [AdminBlogController::class, "update"])->name(
 // ブログ削除
 Route::delete("/admin/blogs/{blog}", [AdminBlogController::class, "destroy"])->name("admin.blogs.destroy")->middleware("auth");
 
-// ユーザー関係
-Route::get("/admin/users", [AdminUserController::class, "index"])->name("admin.users.index")->middleware("auth");
-Route::get("/admin/users/create", [AdminUserController::class, "create"])->name("admin.users.create")->middleware("auth");
-Route::post("/admin/users/", [AdminUserController::class, "store"])->name("admin.users.store")->middleware("auth");
-Route::get("/admin/users/{userId}", [AdminUserController::class, "edit"])->name("admin.users.edit")->middleware("auth");
-Route::put('/admin/users/{userId}', [AdminUserController::class, "update"])->name("admin.users.update")->middleware("auth");
-Route::delete("/admin/users/{userId}", [AdminUserController::class, "destroy"])->name("admin.users.destroy")->middleware("auth");
-
+// ✅ ユーザー関係
+// 管理者(admin)ではないと閲覧できない。
+Route::middleware(["auth", "admin"])->group(function() {
+  Route::get("/admin/users", [AdminUserController::class, "index"])->name("admin.users.index")->middleware("auth");
+  Route::get("/admin/users/create", [AdminUserController::class, "create"])->name("admin.users.create")->middleware("auth");
+  Route::post("/admin/users/", [AdminUserController::class, "store"])->name("admin.users.store")->middleware("auth");
+  Route::get("/admin/users/{userId}", [AdminUserController::class, "edit"])->name("admin.users.edit")->middleware("auth");
+  Route::put('/admin/users/{userId}', [AdminUserController::class, "update"])->name("admin.users.update")->middleware("auth");
+  Route::delete("/admin/users/{userId}", [AdminUserController::class, "destroy"])->name("admin.users.destroy")->middleware("auth");
+});
 
 
 

@@ -17,6 +17,7 @@ use Illuminate\Notifications\Notifiable;
   'password',
   "image",
   "introduction",
+  "role",
   ])
 ]
 

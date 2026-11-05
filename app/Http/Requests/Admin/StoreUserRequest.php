@@ -19,6 +19,7 @@ class StoreUserRequest extends FormRequest {
   public function rules(): array {
     return [
       'name' => ['required', 'string', 'max:255'],
+      "role" => ["required", "in:user,admin"], // user または admin のどちらかを選択
       'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
       'password' => ['required', 'string', 'min:8', 'confirmed'], 
       // ⭐️ 確認用の入力欄と値が一致しているかを検証するバリデーションルール

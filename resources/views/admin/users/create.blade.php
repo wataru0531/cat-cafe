@@ -51,6 +51,19 @@
           </div>
 
           <div class="mb-6">
+            <label for="role" class="block text-sm font-medium mb-2">ユーザー権限</label>
+            <select 
+              name="role" 
+              id="role"
+              class="block w-full px-4 py-3 text-sm bg-white border rounded appearance-none"
+            >
+              <option>一般ユーザーか管理者かを選択してください</option>
+              <option value="user" {{ old("role") === "user" ? "selected" : "" }}>一般ユーザー</option>
+              <option value="admin" {{ old("role") === "admin" ? "selected" : "" }}>管理者</option>
+            </select>
+          </div>
+
+          <div class="mb-6">
             <label class="block text-sm font-medium mb-2" for="email">メールアドレス</label>
             <input 
               id="email" 
