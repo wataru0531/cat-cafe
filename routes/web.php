@@ -43,6 +43,7 @@
 // category 作成ページ admin/cats/create.blade.php
 // category 編集ページ admin/cats/edit.blade.php
 // → category 削除機能も付帯。モーダル
+//            → ブログと紐づいているので注意
 
 // ダッシュボード admin/dashboard.blade.php
 // → ブログ投稿数、登録ユーザー数、未対応のお問い合わせ数、最新のブログ投稿、最新のお問い合わせ
@@ -71,6 +72,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\AdminBlogController;
+use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminUserController;
@@ -101,12 +103,8 @@ Route::get("/contact/complete", [ContactController::class, "complete"])->name("c
 Route::get("/admin/blogs", [AdminBlogController::class, "index"])->name("admin.blogs.index")->middleware("auth");
 Route::get("/admin/blogs/create", [AdminBlogController::class, "create"])->name("admin.blogs.create")->middleware("auth");
 Route::post("/admin/blogs", [AdminBlogController::class, "store"])->name("admin.blogs.store")->middleware("auth");
-
-// ブログ編集画面
 Route::get("/admin/blogs/{blog}", [AdminBlogController::class, "edit"])->name("admin.blogs.edit")->middleware("auth");
-// ブログ更新
 Route::put("/admin/blogs/{blog}", [AdminBlogController::class, "update"])->name("admin.blogs.update")->middleware("auth");
-// ブログ削除
 Route::delete("/admin/blogs/{blog}", [AdminBlogController::class, "destroy"])->name("admin.blogs.destroy")->middleware("auth");
 
 // ✅ ユーザー関係
@@ -120,6 +118,13 @@ Route::middleware(["auth", "admin"])->group(function() {
   Route::delete("/admin/users/{userId}", [AdminUserController::class, "destroy"])->name("admin.users.destroy")->middleware("auth");
 });
 
+// ✅ カテゴリー関連
+Route::get("/admin/categories", [AdminCategoryController::class, "index"])->name("admin.categories.index");
+Route::get("/admin/categories/create", [AdminCategoryController::class, "create"])->name("admin.categories.create");
+Route::post("/admin/categories/{categoryId}", [AdminCategoryController::class, "store"])->name("admin.categories.store");
+Route::get("/admin/categories/{userId}", [AdminCategoryController::class, "edit"])->name("admin.categories.edit");
+Route::put("/admin/categories/{categoryId}", [AdminCategoryController::class, "update"])->name("admin.categories.update");
+Route::delete("/admin/categories/{categoryId}", [AdminCategoryController::class, "destroy"])->name("admin.categories.destroy");
 
 
 // 管理者向けお問い合わせ画面

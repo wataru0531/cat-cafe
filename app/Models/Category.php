@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 
 
 class Category extends Model {
+
+  protected $fillable = [
+    "name",
+  ];
+
   // ブログに対して、1対他 ということ
   // → 1つのCategoryは、複数のBlogを持つ
   public function blogs() {
