@@ -111,12 +111,13 @@
         <div class="flex justify-end gap-3">
           {{-- キャンセルボタン --}}
           <button 
+            type="button"
             class="px-4 py-2 bg-gray-200 rounded"
             id="cancelDelete"
           >キャンセル</button>
           {{-- 
             削除確定ボタン 
-            → actionには最初から設定しない
+            → actionには最初から設定せず、JSから指定
           --}}
           <form
             action="" 
@@ -139,6 +140,7 @@
 
   <script>
     // console.log("hello");
+    // 削除ボタンはユーザーの数だけ存在するので
     const deleteButtons = document.querySelectorAll(".js-delete-button");
 
     const deleteModal = document.getElementById("deleteModal");

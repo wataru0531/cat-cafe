@@ -9,21 +9,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreCategoryRequest;
+use App\Http\Requests\Admin\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AdminCategoryController extends Controller {
-  
   // 一覧ページ
   public function index() {
     // $categories = Category::all();
 
-    // withCount("blogs") → カテゴリごとに紐づいているブログの件数を取得
+    // withCount("blogs") → 内部で各カテゴリに紐づいているブログの件数を数えている。
+    // 　　　　　　　　　　　　また、カテゴリー数を取得して返す。
     //                     取得したカテゴリには blogs_count という属性が追加される
     $categories = Category::withCount("blogs")
                     ->latest()
                     ->get();
+    // dd($categories);
 
+    // compact() は、変数を配列に変換するPHPの関数
+    // compact("categories")で、["categories" => $categories]が作られる
     return view("admin.categories.index", compact("categories"));
 
     // return view("admin.categories.index", [
@@ -38,10 +44,8 @@ class AdminCategoryController extends Controller {
 
   // カテゴリーをDBに入れる
   // Requestsフォルダに作ってもいい
-  public function store(Request $request) {
-    $validated = $request->validate( [
-      "name" => ["required", "string", "max:255", "unique:categories,name"],
-    ]);
+  public function store(StoreCategoryRequest $request) {
+    $validated = $request->validated();
 
     Category::create($validated);
 
@@ -53,26 +57,19 @@ class AdminCategoryController extends Controller {
 
   // 編集
   public function edit(string $categoryId) {
-    $category = Category::findOfFail($categoryId);
+    $category = Category::findOrFail($categoryId);
 
-    return view("admin.category.edit", [
+    return view("admin.categories.edit", [
       "category" => $category,
     ]);
   }
 
   // 更新
   // TODO 更新用のリクエストオブジェクトを作ってもいい。
-  public function update(Request $request, string $categoryId) {
+  public function update(UpdateCategoryRequest $request, string $categoryId) {
     $category= Category::findOrFail($categoryId);
 
-    $validated = $request->validate([
-      "name" => [
-        "required",
-        "string",
-        "max:255",
-        "unique:categories,name" . $category->id,
-      ],
-    ]);
+    $validated = $request->validated();
 
     $category->update($validated); // DBを上書き保存
 
@@ -81,7 +78,7 @@ class AdminCategoryController extends Controller {
 
   // ✅ 削除
   public function destroy(string $categoryId) {
-    $category = Category::findOfFail($categoryId);
+    $category = Category::findOrFail($categoryId);
 
     // カテゴリーに紐づいているブログがまだ存在している場合は削除できない
     if($category->blogs()->exists()) {
@@ -90,6 +87,6 @@ class AdminCategoryController extends Controller {
     }
 
     $category->delete();
-    to_route("admin.category.index")->with("success", "カテゴリーを削除しました。");
+    return to_route("admin.categories.index")->with("success", "カテゴリーを削除しました。");
   }
 }
