@@ -11,20 +11,22 @@
 // ↓ 下記は教材にはない
 // category 一覧ページ → ページにするか、どこかにパーツとしてリンクさせるか
 //                     カテゴリーをクリックするとそのカテゴリーに属するブログのみ一覧表示など
-// category 詳細ページ
 
-// 404エラ- errors/404.blade.php
-// 500エラー errors/500.blade.php
+
+// ☑️ 403エラー errors/403.blade.php。アクセス禁止のページ
+// 404エラ- errors/404.blade.php  ページが存在しない場合
+// 500エラー errors/500.blade.php サーバー内エラー
 // 利用規約ページ terms.blade.php
 // プライバシーポリシー privacy.blade.php
 
-// サイドバー → リンクを埋める
+// ✅ サイドバー → リンクを埋める
 // → ユーザー管理 /admin/users/index.blade.php
 //   ☑️ ブログ管理 
 //   ☑️ お問い合わせ管理
 //   ファイルライブラリ → アップロード済みファイルを一覧・管理する
 //   設定
 //   ☑️ ログアウト処理
+// ※ カテゴリー、登録してる猫、ファイルライブラリなどの項目を追加
 
 /////////////////////////////
 // ✅ 管理画面
@@ -39,24 +41,56 @@
 // ☑️ users detailsページ → viewファイルまだ
 // ☑️ users 編集ページ
 // ☑️ users 削除機能をつける。+ 確認モーダル
-// ☑️ category 一覧ページ admin/cats/index.blade.php
-// ☑️ category 作成ページ admin/cats/create.blade.php
-// ☑️ category 編集ページ admin/cats/edit.blade.php
+// ☑️ category 一覧ページ admin/categories/index.blade.php
+// ☑️ category 作成ページ admin/categories/create.blade.php
+// ☑️ category 編集ページ admin/categories/edit.blade.php
 // ☑️  → category 削除機能も付帯。モーダル
 //            → ブログと紐づいているので注意
 
-// ダッシュボード admin/dashboard.blade.php
-// → ブログ投稿数、登録ユーザー数、未対応のお問い合わせ数、最新のブログ投稿、最新のお問い合わせ
-//   などを表示
+// ⭐️これから⭐️これから⭐️これから⭐️これから⭐️これから
+// ⭐️これから⭐️これから⭐️これから⭐️これから⭐️これから
+// cats関連のbladeをさくせい
+// cats 一覧ページ admin/cats/index.blade.php
+// cats作成ページ admin/cats/create.blade.php
+//              → post。admin/cats
+// cats編集ページ admin/cats/edit.blade.php
+//              → put。admin/cats/{catsId}
+// cats削除機能 → delete。admin/cats/{catsId}
+//           　　※ blogで使われているcatは削除できない
 
-// ☑️ 403エラー errors/403.blade.php。アクセス禁止のページ
+
+
+
+
+// 設定画面
+
+// ファイルライブラリページ
+// → アップロード済み画像の一覧
+//   画像のプレビュ-
+//   ファイル名
+//   アップロード日時
+//   画像の削除
+//   画像の検索
+
+
+// ダッシュボード admin/dashboard.blade.php
+// → ブログ投稿数、
+//   登録ユーザー数、
+//   未対応のお問い合わせ数、
+//   最新のブログ投稿、
+//   最新のお問い合わせ
+
 
 //////////////////////////////
 // ✅ 認証関係
 /////////////////////////////
 // ☑️ ログインページ
+// パスワード再設定	パスワードを忘れた場合
+// ログイン失敗制限	ログイン試行回数の制限
 
+//////////////////////////////////
 // ✅ すべてのことに気をつけること
+//////////////////////////////////
 // ページネーション	ブログやユーザーの一覧を分割
 // 検索機能	ブログ・ユーザーの検索
 // 絞り込み	カテゴリーやステータスで絞り込む
@@ -67,11 +101,14 @@
 // 論理削除	データを残したまま削除扱いにする
 // 画像アップロード	ブログやユーザー画像の登録
 // フラッシュメッセージ	登録・更新・削除の成功通知
+// フラッシュメッセージ	登録・更新・削除の失敗
+
 
 
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\AdminBlogController;
+use App\Http\Controllers\Admin\AdminCatController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\Admin\AuthController;
@@ -118,11 +155,6 @@ Route::middleware(["auth", "admin"])->group(function() {
   Route::delete("/admin/users/{userId}", [AdminUserController::class, "destroy"])->name("admin.users.destroy")->middleware("auth");
 });
 
-
-// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// カテゴリー関係の画面をある程度構築
-
 // ✅ カテゴリー関連
 Route::get("/admin/categories", [AdminCategoryController::class, "index"])->name("admin.categories.index")->middleware("auth");
 Route::get("/admin/categories/create", [AdminCategoryController::class, "create"])->name("admin.categories.create")->middleware("auth");
@@ -130,6 +162,14 @@ Route::post("/admin/categories", [AdminCategoryController::class, "store"])->nam
 Route::get("/admin/categories/{categoryId}", [AdminCategoryController::class, "edit"])->name("admin.categories.edit")->middleware("auth");
 Route::put("/admin/categories/{categoryId}", [AdminCategoryController::class, "update"])->name("admin.categories.update")->middleware("auth");
 Route::delete("/admin/categories/{categoryId}", [AdminCategoryController::class, "destroy"])->name("admin.categories.destroy")->middleware("auth");
+
+// ✅ 猫一覧
+Route::get('/admin/cats', [AdminCatController::class, 'index'])->name('admin.cats.index')->middleware("auth");
+Route::get("/admin/cats/create", [AdminCatController::class, "create"])->name("admin.cats.create")->middleware("auth");
+Route::post("/admin.cats/{catId}", [AdminCatController::class, "store"])->name("admin.cats.store")->middleware("auth");
+Route::get("/admin/cats/{catId}", [AdminCatController::class, "edit"])->name("admin.cats.edit")->middleware("auth");
+Route::put("/admin/cats/{catsId}", [AdminCatController::class, "update"])->name("admin.cats.update")->middleware("auth");
+Route::delete("/admin/cats/{catsId}", [AdminCatController::class, "destroy"])->Name("admin.cats.destroy")->middleware("auth");
 
 
 // 管理者向けお問い合わせ画面

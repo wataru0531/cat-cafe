@@ -15,8 +15,8 @@ class Category extends Model {
     "name",
   ];
 
-  // ブログに対して、1対他 ということ
-  // → 1つのCategoryは、複数のBlogを持つ
+  // ブログに対して、1 対 多
+  // → 1つのCategoryは、複数のBlogに紐づく
   public function blogs() {
     return $this->hasMany(Blog::class);
   }

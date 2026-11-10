@@ -83,7 +83,7 @@ class AdminCategoryController extends Controller {
     // カテゴリーに紐づいているブログがまだ存在している場合は削除できない
     if($category->blogs()->exists()) {
       return to_route("admin.categories.index")
-              ->with("success", "ブログに使用されているカテゴリは削除できません。");
+              ->with("error", "ブログに使用されているカテゴリは削除できません。");
     }
 
     $category->delete();
