@@ -78,7 +78,7 @@ class AdminBlogController extends Controller {
     // 返された$blog ... データベースに新規保存されたブログの情報を持つ、Blogモデルのインスタンス(オブジェクト)
     $blog = Blog::create($validated); 
 
-    // ⭐️ 中間テーブルに猫との関連付けのデータを保存
+    // ⭐️ 中間テーブルに猫との関連付けを登録
     // → このブログに対して、catIds(例えば、[1, 2])の関連付けを保存すると言う意味。
     // sync() ... 多対多のリレーションにおける「関連付けを同期する」ためのメソッド
     //            初めは[1, 3]だったが、更新後に[1, 2]になればsyncにより自動で更新される。
@@ -149,7 +149,7 @@ class AdminBlogController extends Controller {
 
     $blog->update($updateData); // DBを更新
                                 // → 一括更新なので、$fillableにimageを追加
-
+    
     // 今回選択されたねこたちをこのブログに関連づける。リレーションデータの更新を行う
     // $blog->cats()->attach($updateData["cats"]); // → DBに追加するだけ
     $blog->cats()->sync($updateData["cats"] ?? []); // 現在の関連付けを、今回選択した内容に合わせる

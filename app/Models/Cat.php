@@ -10,15 +10,20 @@ class Cat extends Model {
     "name",
     "breed",
     "gender",
-    "data_of_birth",
+    "date_of_birth",
     "image",
     "introduction",
   ];
 
   // Blogsに多対多のリレーションをはる
   // belongsTo() → 1つのCatが１つのブログに紐づく。
-  public function blog() {
-    return $this->belongsToMany(Blog::class);
+  public function blogs() {
+    return $this->belongsToMany(
+      Blog::class,  // 関連するモデル
+      "blogs_cats", // 中間テーブル名
+      "cat_id",     // このCatモデル側の外部キー
+      "blog_id"     // Blogモデル側の外部キー
+    )->withTimestamps();
   }
 
   // 🌾 Blogテーブルにも同様にリレーションをはることで、関連データを取得できる

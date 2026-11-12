@@ -33,7 +33,12 @@ class Blog extends Model {
   // ブログ登録画面の、登録するねこの部分で使う
   // withTimestamps → 中間テーブルに追加した内容のcreated_at、updated_atも入力できる
   public function cats() {
-    return $this->belongsToMany(Cat::class)->withTimestamps();
+    return $this->belongsToMany(
+      Cat::class,   // 関連するモデル
+      "blogs_cats", // 中間テーブル名
+      "blog_id",    // このBlogモデル側の外部キー
+      "cat_id"      // Catモデル側の外部キー
+    )->withTimestamps();
   }
 
 }

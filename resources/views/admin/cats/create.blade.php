@@ -16,7 +16,7 @@
           → テキストと画像ファイルを同じフォームから送信できる
       -->
       <form
-        action="{{ route('admin.categories.store') }}"
+        action="{{ route('admin.cats.store') }}"
         method="POST"
         enctype="multipart/form-data"
       >
@@ -34,36 +34,24 @@
             <div class="mb-8 py-4 px-6 border border-red-300 bg-red-50 rounded">
               <ul>
                 @foreach($errors->all() as $error)
-                <li class="text-red-400">{{ $error }}</li>
+                  <li class="text-red-400">{{ $error }}</li>
                 @endforeach
               </ul>
             </div>
           @endif
 
-          {{-- 
-            public function up(): void {
-              Schema::create('cats', function (Blueprint $table) {
-                $table->id();
-                $table->string("name")->comment("名前");
-                $table->string("breed")->comment("種類");
-                $table->integer("gender")->comment("性別(1:オス, 2:メス");
-                $table->date("date_of_birth")->comment("生年月日");
-                $table->string("image")->comment("画像");
-                $table->string("introduction")->comment("紹介文");
-                $table->timestamps();
-              });
-            } 
-          --}}
-
           <div class="mb-6">
             <label class="block text-sm font-medium mb-2" for="name">ねこ名</label>
-            <!-- ✅ カテゴリー名 -->
+            <!-- 
+              ✅ カテゴリー名 
+              requireを設定すると、ブラウザが送信を止めるので、Laravelに通知がいかず、エラー表示がなくなってしまうので設定しない。
+            -->
             <input 
               id="name" 
               class="block w-full px-4 py-3 mb-2 text-sm bg-white border rounded outline-none" 
               type="text" 
               placeholder="作成したい猫の名前を入力してください。"
-              required
+              {{-- required --}}
               name="name" 
               value="{{ old('name') }}"
             >
@@ -77,7 +65,7 @@
               class="block w-full px-4 py-3 mb-2 text-sm bg-white border rounded outline-none" 
               type="text" 
               placeholder="例:スノーシュー"
-              required
+              {{-- required --}}
               name="breed" 
               value="{{ old('breed') }}"
             >
@@ -90,7 +78,7 @@
               <select 
                 id="gender" 
                 class="appearance-none block pl-4 pr-8 py-3 mb-2 text-sm bg-white border rounded"
-                required
+                {{-- required --}}
                 name="gender"
               > 
                 <option value="">性別を選択してください</option>
@@ -107,13 +95,13 @@
 
           {{-- ✅ 生年月日 --}}
           <div class="mb-6">
-            <label for="data_of_birth" class="block text-sm font-medium mb-2">生年月日</label>
+            <label for="date_of_birth" class="block text-sm font-medium mb-2">生年月日</label>
             <input 
               type="date"
-              id="data_of_birth"
+              id="date_of_birth"
               class="block w-full px-4 py-3 mb-2 text-sm bg-white border rounded outline-none"
-              required
-              name="data_of_birth"
+              {{-- required --}}
+              name="date_of_birth"
               value="{{ old('date_of_birth') }}"
             >
           </div>
@@ -134,7 +122,7 @@
                 id="image"
                 class="block w-ful px-4 py-3 mb-2"
                 accept="image/*"
-                required
+                {{-- required --}}
                 name="image"
               >
             </div>
@@ -147,7 +135,7 @@
               type="text"
               id="introduction"
               class="block w-full px-4 py-3 mb-2 text-sm bg-white border rounded"
-              required
+              {{-- required --}}
               rows="5"
               placeholder="猫の紹介文を入力してください"
               name="introduction"
@@ -161,17 +149,33 @@
 </section>
 
 <script>
+  // ねこちゃんたち追加
+  // ✅ TODO
+  // $('#js-pulldown').select2();
+
   // ✅ 画像プレビュー
+  // image ... inputタブ
+  // previewImage ... imgタグ
   document.getElementById("image").addEventListener("change", (e) => {
     const previewImage = document.getElementById("previewImage");
-    const fileReader = new fileReader();
-    fileReader.onload = () => previewImage.src = fileReader.result;
+    const fileReader = new FileReader(); // 選択したファイルをロードする機能を持つ
 
-    // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-    // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-    
+    // ファイルを読み込んだら発火、previewImageに画像を設定
+    // fileReader.result ... ロードしたデータを格納している
+    fileReader.onload = () => previewImage.src = fileReader.result; 
 
-
+    if(e.target.files.length > 0) {
+      // readAsDataURL ... 画像データをURL形式に変換してロード。
+      //                   → これが終われば、fileReader.resultで画像を取得できる
+      //                   → 形式 ... data:image/png;base64,iVBORw0KGgo...
+      //                   → ※ storageフォルダに入るファイル名は関係ない。
+      // console.log(e.target.files[0]); // File {name: '11.avif', lastModified: 1732360031464, lastModifiedDate: Sat Nov 23 2024 20:07:11 GMT+0900 (日本標準時), webkitRelativePath: '', size: 5782, …}
+      // console.log(e.target.files);
+      fileReader.readAsDataURL(e.target.files[0]); // ロードする。これが終わり次第onloadが発火
+      // console.log(fileReader.result);
+    } else {
+      previewImage.src = previewImageNode.dataset.noimage;
+    }
   });
   
 </script>
