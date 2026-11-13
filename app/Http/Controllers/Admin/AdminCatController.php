@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCatRequest;
+use App\Http\Requests\Admin\UpdateCatRequest;
 use App\Models\Cat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminCatController extends Controller {
   // ✅ 一覧表示
@@ -36,16 +38,40 @@ class AdminCatController extends Controller {
   }
 
   // ✅ 更新
-  public function edit() {
+  public function edit(string $catId) {
+    $cat = Cat::findOrFail($catId);
 
+    return view("admin.cats.edit", [
+      "cat" => $cat,
+    ]);
   }
 
-  public function update() {
+  public function update(UpdateCatRequest $request, string $catId) {
+    $cat = Cat::findOrFail($catId);
 
+    $updateData = $request->validated();
+
+    if($request->has("image")) {
+      Storage::disk("public")->delete($cat->image); // 変更前の画像を削除
+      $updateData["image"] = $request->file("image")->store("cats", "public");
+    }
+
+    $cat->update($updateData); // DBを更新
+
+    return to_route("admin.cats.index")->with("success", "ねこを更新しました。");
   }
 
-  public function destroy() {
+  public function destroy(string $catId) {
+    $cat = Cat::findOrFail($catId);
 
+    if($cat->blogs()->exists()) {
+      return to_route("admin.cats.index")->with("error", "この猫はブログに登録されているため削除できません。");
+    }
+
+    $cat->delete();
+    Storage::disk("public")->delete($cat->image);
+
+    return to_route("admin.cats.index")->with("success", "猫を削除しました。");
   }
 
 }

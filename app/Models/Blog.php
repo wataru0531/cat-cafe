@@ -35,7 +35,7 @@ class Blog extends Model {
   public function cats() {
     return $this->belongsToMany(
       Cat::class,   // 関連するモデル
-      "blogs_cats", // 中間テーブル名
+      "blog_cat", // 中間テーブル名
       "blog_id",    // このBlogモデル側の外部キー
       "cat_id"      // Catモデル側の外部キー
     )->withTimestamps();

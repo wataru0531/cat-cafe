@@ -139,8 +139,7 @@
               rows="5"
               placeholder="猫の紹介文を入力してください"
               name="introduction"
-            >{{ old("introduction") }}
-            </textarea>
+            >{{ old("introduction") }}</textarea>
           </div>
         </div>
       </form>

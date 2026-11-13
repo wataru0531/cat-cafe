@@ -20,7 +20,7 @@ class UpdateBlogRequest extends FormRequest {
     return [
       "title" => ["required", "max:255"],
       "image" => [
-        "nullable", // ⭐️ 省略可能にする(更新時だけ)
+        "nullable", // ⭐️ 省略可能にする(更新時だけ)。更新時は画像を更新しない可能性もあるため。
         "file",  // ファイルであること。アップロードされたファイルとして有効かどうか
         "image", // 画像ファイルであること。画像として認識できるか形式かどうか
         // → ファイルとして有効か？そして、そのファイルが画像か？を確認する

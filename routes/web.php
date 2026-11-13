@@ -168,8 +168,8 @@ Route::get('/admin/cats', [AdminCatController::class, 'index'])->name('admin.cat
 Route::get("/admin/cats/create", [AdminCatController::class, "create"])->name("admin.cats.create")->middleware("auth");
 Route::post("/admin/cats", [AdminCatController::class, "store"])->name("admin.cats.store")->middleware("auth");
 Route::get("/admin/cats/{catId}", [AdminCatController::class, "edit"])->name("admin.cats.edit")->middleware("auth");
-Route::put("/admin/cats/{catsId}", [AdminCatController::class, "update"])->name("admin.cats.update")->middleware("auth");
-Route::delete("/admin/cats/{catsId}", [AdminCatController::class, "destroy"])->Name("admin.cats.destroy")->middleware("auth");
+Route::put("/admin/cats/{catId}", [AdminCatController::class, "update"])->name("admin.cats.update")->middleware("auth");
+Route::delete("/admin/cats/{catId}", [AdminCatController::class, "destroy"])->Name("admin.cats.destroy")->middleware("auth");
 
 
 // 管理者向けお問い合わせ画面
