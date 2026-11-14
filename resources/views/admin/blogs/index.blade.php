@@ -1,7 +1,7 @@
 
 <!-- 
   admin/blogs/index.blade.php
-  一覧画面
+  ✅ ブログ一覧画面
 -->
 
 @extends('layouts.admin')
@@ -38,7 +38,11 @@
                 -->
                 <img 
                   class="w-12 h-12 mr-4 object-cover rounded-md" 
-                  src="{{ asset('storage/' . $blog->image) }}" 
+                  src="{{
+                        $blog->image && file_exists(public_path('storage/' . $blog->image))
+                        ? asset('storage/' . $blog->image)
+                        : asset('images/admin/noimage.jpg')
+                      }}"
                   alt=""
                 >
                 <p class="font-medium">

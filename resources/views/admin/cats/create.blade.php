@@ -108,23 +108,34 @@
 
           {{-- ✅ 画像 --}}
           <div class="mb-6">
-            <label for="" class="block text-sm font-medium mb-2">画像</label>
+            <label for="image" class="block text-sm font-medium mb-2">
+              画像
+            </label>
+
             <div class="flex items-end">
               <img 
                 id="previewImage"
                 class="rounded shadow-md w-64"
-                src="/images/admin/noimage.jpg" 
+                src="/images/admin/noimage.jpg"
                 data-noimage="/images/admin/noimage.jpg"
-                alt="" 
+                alt=""
               >
-              <input
-                type="file"
-                id="image"
-                class="block w-ful px-4 py-3 mb-2"
-                accept="image/*"
-                {{-- required --}}
-                name="image"
-              >
+              <div class="ml-4">
+                <input
+                  type="file"
+                  id="image"
+                  class="hidden"
+                  accept="image/*"
+                  name="image"
+                  {{-- required --}}
+                >
+                <label
+                  for="image"
+                  class="cursor-pointer py-2 px-4 text-sx text-white bg-indigo-500 rounded-md"
+                >
+                  画像を選択する
+                </label>
+              </div>
             </div>
           </div>
 

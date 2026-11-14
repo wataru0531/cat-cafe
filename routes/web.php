@@ -12,7 +12,7 @@
 // category 一覧ページ → ページにするか、どこかにパーツとしてリンクさせるか
 //                     カテゴリーをクリックするとそのカテゴリーに属するブログのみ一覧表示など
 
-
+// ✅ エラーページ関係
 // ☑️ 403エラー errors/403.blade.php。アクセス禁止のページ
 // 404エラ- errors/404.blade.php  ページが存在しない場合
 // 500エラー errors/500.blade.php サーバー内エラー
@@ -31,40 +31,39 @@
 /////////////////////////////
 // ✅ 管理画面
 /////////////////////////////
+// ✅ ブログ
 // ☑️ blogs indexページ
 // ☑️ blogs createページ
 // ☑️ blogs editページ
+
+// ✅ お問い合わせ
 // ☑️ contacts indexページ
 // ☑️ contacts 詳細ページ
+
+// ✅ 登録ユーザー
 // ☑️ users createページ
 // ☑️ users 一覧ページ → viewファイルまだ
 // ☑️ users detailsページ → viewファイルまだ
 // ☑️ users 編集ページ
 // ☑️ users 削除機能をつける。+ 確認モーダル
+
+// ✅ カテゴリー
 // ☑️ category 一覧ページ admin/categories/index.blade.php
 // ☑️ category 作成ページ admin/categories/create.blade.php
 // ☑️ category 編集ページ admin/categories/edit.blade.php
 // ☑️  → category 削除機能も付帯。モーダル
 //            → ブログと紐づいているので注意
 
-// ⭐️これから⭐️これから⭐️これから⭐️これから⭐️これから
-// ⭐️これから⭐️これから⭐️これから⭐️これから⭐️これから
-// cats関連のbladeをさくせい
-// cats 一覧ページ admin/cats/index.blade.php
-// cats作成ページ admin/cats/create.blade.php
+// ✅ 登録中のねこ
+// ☑️ cats 一覧ページ admin/cats/index.blade.php
+// ☑️ cats作成ページ admin/cats/create.blade.php
 //              → post。admin/cats
-// cats編集ページ admin/cats/edit.blade.php
+// ☑️ cats編集ページ admin/cats/edit.blade.php
 //              → put。admin/cats/{catsId}
-// cats削除機能 → delete。admin/cats/{catsId}
+// ☑️ cats削除機能 → delete。admin/cats/{catsId}
 //           　　※ blogで使われているcatは削除できない
 
-
-
-
-
-// 設定画面
-
-// ファイルライブラリページ
+// ✅ ファイルライブラリページ
 // → アップロード済み画像の一覧
 //   画像のプレビュ-
 //   ファイル名
@@ -72,13 +71,15 @@
 //   画像の削除
 //   画像の検索
 
-
-// ダッシュボード admin/dashboard.blade.php
+// ✅ ダッシュボード admin/dashboard.blade.php
 // → ブログ投稿数、
 //   登録ユーザー数、
 //   未対応のお問い合わせ数、
 //   最新のブログ投稿、
 //   最新のお問い合わせ
+
+// ✅ 設定画面
+// → ❓TODO 項目はどうする。
 
 
 //////////////////////////////
