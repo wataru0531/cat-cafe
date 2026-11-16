@@ -6,6 +6,8 @@
 
 @extends('layouts.admin')
 
+@section('title', 'ブログ')
+
 @section('content')
 <section>
   <div class="mb-6 py-4 bg-white rounded">
