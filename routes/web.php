@@ -1,23 +1,42 @@
 <?php
+
+
 ////////////////////////////////
 // ✅ 一般ユーザー向け画面
 ///////////////////////////////
-// ☑️ contact indexページ
-// ☑️ contact completeページ
-// blogs indexページ
-// blogs detailsページ
-// cats indexページ
-// cats detailsページ → viewファイルなし
-// ↓ 下記は教材にはない
-// category 一覧ページ → ページにするか、どこかにパーツとしてリンクさせるか
-//                     カテゴリーをクリックするとそのカテゴリーに属するブログのみ一覧表示など
+// ✅ ブログ
+// blogs/index
+// blogs/blogId
 
-// ✅ エラーページ関係
+// ✅ 猫
+// cats/index
+// cats/catId
+
+// ✅ カテゴリー
+// → ページにするか、どこかにパーツとしてリンクさせるか
+//   カテゴリーをクリックするとそのカテゴリーに属するブログのみ一覧表示など
+// categories/index
+// categories/categoryId
+
+// ✅ 利用規約ページ 
+// terms.blade.php
+
+// プライバシーポリシー
+// privacy.blade.php
+
+// ✅ エラーページ関連
 // ☑️ 403エラー errors/403.blade.php。アクセス禁止のページ
 // 404エラ- errors/404.blade.php  ページが存在しない場合
 // 500エラー errors/500.blade.php サーバー内エラー
-// 利用規約ページ terms.blade.php
-// プライバシーポリシー privacy.blade.php
+
+// ✅ お問い合わせ一覧
+// ☑️ contact indexページ
+// ☑️ contact completeページ
+
+// ✅ 付けたい機能関係
+// ブログ検索機能
+// → ブログタイトル、ブログ本文、猫の名前
+
 
 // ✅ サイドバー → リンクを埋める
 // → ユーザー管理 /admin/users/index.blade.php
@@ -27,6 +46,7 @@
 //   設定
 //   ☑️ ログアウト処理
 // ※ カテゴリー、登録してる猫、ファイルライブラリなどの項目を追加
+
 
 /////////////////////////////
 // ✅ 管理画面
@@ -42,8 +62,8 @@
 
 // ✅ 登録ユーザー
 // ☑️ users createページ
-// ☑️ users 一覧ページ → viewファイルまだ
-// ☑️ users detailsページ → viewファイルまだ
+// ☑️ users 一覧ページ
+// users detailsページ → viewファイルまだ
 // ☑️ users 編集ページ
 // ☑️ users 削除機能をつける。+ 確認モーダル
 
@@ -64,12 +84,25 @@
 //           　　※ blogで使われているcatは削除できない
 
 // ✅ ファイルライブラリページ
+// admin/media/index.blade.php ... 一覧
+// admin/media/create ... 作成
+// post admin/media ... upload
+// admin/media/{mediaId} ... ファイル詳細
+// delete admin/media/{media} ... 削除
+
 // → アップロード済み画像の一覧
 //   画像のプレビュ-
 //   ファイル名
 //   アップロード日時
 //   画像の削除
 //   画像の検索
+
+// ✅ 付けたい機能
+// ブログ検索
+// ブログ絞り込み検索
+// ブログソート → 投稿日、更新日順
+// ユーザー検索、ユーザー絞り込み
+// 
 
 // ❌ 個人制作で追加する。
 // ❌ ダッシュボード admin/dashboard.blade.php
@@ -81,6 +114,9 @@
 
 // ❌ 設定画面
 // → ❓TODO 項目はどうする。
+
+// ⭐️ TODO
+// ユーザー管理だけではなくて、adminのユーザー以外でも入れるページなどを確認する
 
 
 //////////////////////////////
@@ -115,15 +151,17 @@ use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 
-
+///////////////////////////////////////////////////////////////
 // ✅ 一般ユーザー向けのルート
+//////////////////////////////////////////////////////////////
 // Route::get('/', function () {
 //     return view('index');
 // });
 
-Route::view("/", "index");
+Route::view("/", [BlogController::class, "index"])->name("blog.index");
 
 
 // コンタクトフォーム
@@ -177,8 +215,8 @@ Route::delete("/admin/cats/{catId}", [AdminCatController::class, "destroy"])->Na
 // 管理者向けお問い合わせ画面
 // お問い合わせの一覧
 Route::get("/admin/contacts", [AdminContactController::class, "index"])->name("admin.contacts.index")->middleware("auth");
-Route::delete("/admin/contacts/{contact}", [AdminContactController::class, "destroy"])->name("admin.contacts.destroy");
-Route::patch("/admin/contacts/{contact}/toggle-completed", [AdminContactController::class, "toggleCompleted"])->name("admin.contacts.toggleCompleted");
+Route::delete("/admin/contacts/{contact}", [AdminContactController::class, "destroy"])->name("admin.contacts.destroy")->middleware("auth");
+Route::patch("/admin/contacts/{contact}/toggle-completed", [AdminContactController::class, "toggleCompleted"])->name("admin.contacts.toggleCompleted")->middleware("auth");
 // → どの処理にアクセスしているかがわかりやすいので、toggle-completeをつける
 
 // 詳細
