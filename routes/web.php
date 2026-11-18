@@ -87,7 +87,6 @@
 // admin/media/index.blade.php ... 一覧
 // admin/media/create ... 作成
 // post admin/media ... upload
-// admin/media/{mediaId} ... ファイル詳細
 // delete admin/media/{media} ... 削除
 
 // → アップロード済み画像の一覧
@@ -149,6 +148,7 @@ use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminCatController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminContactController;
+use App\Http\Controllers\Admin\AdminMediaController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\BlogController;
@@ -211,8 +211,7 @@ Route::get("/admin/cats/{catId}", [AdminCatController::class, "edit"])->name("ad
 Route::put("/admin/cats/{catId}", [AdminCatController::class, "update"])->name("admin.cats.update")->middleware("auth");
 Route::delete("/admin/cats/{catId}", [AdminCatController::class, "destroy"])->Name("admin.cats.destroy")->middleware("auth");
 
-
-// 管理者向けお問い合わせ画面
+// ✅ 管理者向けお問い合わせ画面
 // お問い合わせの一覧
 Route::get("/admin/contacts", [AdminContactController::class, "index"])->name("admin.contacts.index")->middleware("auth");
 Route::delete("/admin/contacts/{contact}", [AdminContactController::class, "destroy"])->name("admin.contacts.destroy")->middleware("auth");
@@ -227,8 +226,14 @@ Route::patch(
   [AdminContactController::class, "updateAdminDetails"],
 )->name("admin.contacts.updateAdminDetails")->middleware("auth");
 
+// ✅ ファイルライブラリ
+Route::get("/admin/medias", [AdminMediaController::class, "index"])->name("admin.medias.index")->middleware("auth");
+Route::get("/admin/medias/create", [AdminMediaController::class, "create"])->name("admin.medias.create")->middleware("auth");
+Route::post("/admin/medias", [AdminMediaController::class, "store"])->name("admin.medias.store")->middleware("auth");
+Route::delete("/admin/medias/{mediaId}", [AdminMediaController::class, "destroy"])->name("admin.medias.destroy")->middleware("auth");
 
-// 認証関係
+
+// ✅ 認証関係
 Route::get("/admin/login", [AuthController::class, "showLoginForm"])->name("admin.login")->middleware("guest");
 Route::post("/admin/login", [AuthController::class, "login"])->middleware("guest");
 Route::post("/admin/logout", [AuthController::class, "logout"])->name("admin.logout")->middleware("auth");

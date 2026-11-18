@@ -2,10 +2,19 @@
 
 // ✅ Mediaのコントローラ
 
+// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+// Mediasの流れから確認。
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreMediaRequest;
+use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 // ✅ ファイルライブラリページ
 // admin/media/index.blade.php ... 一覧
@@ -17,15 +26,64 @@ use Illuminate\Http\Request;
 class AdminMediaController extends Controller {
 
   // 一覧
+  public function index() {
+    // with("uploader") ... ユーザー情報も取得する
+    $medias = Media::with("uploader")->latest()->paginate(20);
 
-  // ✅ show ... 詳細は必要ない
+    return view("admin.medias.index", [
+      "medias" => $medias,
+    ]);
+  }
 
   // 作成画面
+  public function create(){
+    return view("admin.medias.create");
+  }
 
-  // upload処理
+  // 作成(ファイル、DBに保存)の処理
+  // TODO Requestオブジェクトを作成
+  public function store(StoreMediaRequest $request) {
+    $validated = $request->validated();
 
-  // ファイル詳細
+    $image = $validated->file("image");
+    $path = $image->store("medias", "public"); // フォルダに保存。保存先のパス
+
+    $imageInfo = getimagesize($image->getRealPath()); // 画像の詳細データを取得
+    $width = $imageInfo[0] ?? null;
+    $height = $imageInfo[1] ?? null;
+    
+
+    try {
+      $validated["original_name"] = $image->getClientOriginalName();
+      $validated["disk"] = "public";
+      $validated["path"] = $path;
+      $validated["mime_type"] = $image->getMimeType(); // 拡張子のタイプ
+      $validated["size"] = $image->getSize();
+      $validated["width"] = $width;
+      $validated["height"] = $height;
+      $validated["update_by"] = Auth::user()->id;
+
+      Media::create($validated); // DBに保存
+
+      } catch(Throwable $e) {
+      // DB登録に失敗した場合は画像も削除
+      // disk() ... ここでは、storage/publicフォルダに保存されているファイルを指定する。
+      Storage::disk('public')->delete($path);
+      throw $e;
+    }
+
+    return to_route("admin.medias.index")->with("success", "画像をアップロードしました。");
+  }
 
   // 削除処理
+  // TODO 文法チェック。通常方法の確認
+  public function destroy(string $mediaId){
+    $media = Media::findOrFail($mediaId);
+    $media->delete(); // DBから削除
+
+    Storage::disk("public")->delete($media->path);  // Storage領域から削除
+
+    return to_route("admin.medias.index")->with("success", "画像を削除しました。");
+  }
 
 }

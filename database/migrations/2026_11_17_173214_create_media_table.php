@@ -17,6 +17,7 @@ return new class extends Migration {
         $table->unsignedBigInteger("size"); // 
         $table->unsignedBigInteger("width")->nullable(); // 取得できない可能性があるのでnull。
         $table->unsignedBigInteger("height")->nullable();
+        
         // アップロードしたユーザー
         // nullOnDelete ... ユーザーが削除されても画像情報を残す
         $table->foreignId("uploaded_by")->nullable()->constrained("users")->nullOnDelete();
