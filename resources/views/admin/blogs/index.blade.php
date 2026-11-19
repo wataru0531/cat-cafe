@@ -45,7 +45,7 @@
                         ? asset('storage/' . $blog->image)
                         : asset('images/admin/noimage.jpg')
                       }}"
-                  alt=""
+                  alt="{{ $blog->name }}"
                 >
                 <p class="font-medium">
                   <a href="{{ route('admin.blogs.edit', ['blog' => $blog->id]) }}">{{ $blog->title }}</a>

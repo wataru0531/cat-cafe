@@ -45,14 +45,13 @@ class AdminMediaController extends Controller {
   public function store(StoreMediaRequest $request) {
     $validated = $request->validated();
 
-    $image = $validated->file("image");
-    $path = $image->store("medias", "public"); // フォルダに保存。保存先のパス
+    $image = $request->file("image");
+    $path = $image->store("medias", "public"); // フォルダに保存。保存先のパス    
 
     $imageInfo = getimagesize($image->getRealPath()); // 画像の詳細データを取得
     $width = $imageInfo[0] ?? null;
     $height = $imageInfo[1] ?? null;
     
-
     try {
       $validated["original_name"] = $image->getClientOriginalName();
       $validated["disk"] = "public";
@@ -61,7 +60,7 @@ class AdminMediaController extends Controller {
       $validated["size"] = $image->getSize();
       $validated["width"] = $width;
       $validated["height"] = $height;
-      $validated["update_by"] = Auth::user()->id;
+      $validated["uploaded_by"] = Auth::user()->id;
 
       Media::create($validated); // DBに保存
 

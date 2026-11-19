@@ -232,7 +232,6 @@ Route::get("/admin/medias/create", [AdminMediaController::class, "create"])->nam
 Route::post("/admin/medias", [AdminMediaController::class, "store"])->name("admin.medias.store")->middleware("auth");
 Route::delete("/admin/medias/{mediaId}", [AdminMediaController::class, "destroy"])->name("admin.medias.destroy")->middleware("auth");
 
-
 // ✅ 認証関係
 Route::get("/admin/login", [AuthController::class, "showLoginForm"])->name("admin.login")->middleware("guest");
 Route::post("/admin/login", [AuthController::class, "login"])->middleware("guest");
