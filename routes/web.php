@@ -1,4 +1,9 @@
 <?php
+// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+// ログインの時間を長く
+// headタグの中を動的にする
+// ファイルライブラリの画面の編集
 
 
 ////////////////////////////////
@@ -217,7 +222,6 @@ Route::get("/admin/contacts", [AdminContactController::class, "index"])->name("a
 Route::delete("/admin/contacts/{contact}", [AdminContactController::class, "destroy"])->name("admin.contacts.destroy")->middleware("auth");
 Route::patch("/admin/contacts/{contact}/toggle-completed", [AdminContactController::class, "toggleCompleted"])->name("admin.contacts.toggleCompleted")->middleware("auth");
 // → どの処理にアクセスしているかがわかりやすいので、toggle-completeをつける
-
 // 詳細
 Route::get("/admin/contacts/{contactId}", [AdminContactController::class, "show"])->name("admin.contacts.show")->middleware("auth");
 // 更新(対応済みかどうか、管理者のコメント)
@@ -230,7 +234,11 @@ Route::patch(
 Route::get("/admin/medias", [AdminMediaController::class, "index"])->name("admin.medias.index")->middleware("auth");
 Route::get("/admin/medias/create", [AdminMediaController::class, "create"])->name("admin.medias.create")->middleware("auth");
 Route::post("/admin/medias", [AdminMediaController::class, "store"])->name("admin.medias.store")->middleware("auth");
+Route::get("/admin/medias/{mediaId}", [AdminMediaController::class, "edit"])->name("admin.medias.edit")->middleware("auth");
+Route::put("/admin/medias/{mediaId}", [AdminMediaController::class, "update"])->name("admin.medias.update")->middleware("auth");
 Route::delete("/admin/medias/{mediaId}", [AdminMediaController::class, "destroy"])->name("admin.medias.destroy")->middleware("auth");
+
+
 
 // ✅ 認証関係
 Route::get("/admin/login", [AuthController::class, "showLoginForm"])->name("admin.login")->middleware("guest");

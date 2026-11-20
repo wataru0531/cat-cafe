@@ -2,10 +2,6 @@
 
 // ✅ Mediaのコントローラ
 
-// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// Mediasの流れから確認。
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -80,7 +76,7 @@ class AdminMediaController extends Controller {
     $media = Media::findOrFail($mediaId);
 
     return view("admin.medias.edit", [
-      "$media" => $media,
+      "media" => $media,
     ]);
   }
 

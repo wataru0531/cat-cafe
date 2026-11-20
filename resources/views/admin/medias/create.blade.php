@@ -76,6 +76,7 @@
               </div>
             </div>
           </div>
+          
           {{-- 画像名 --}}
           <div class="mb-6">
             <label for="name" class="block text-sm font-medium mb-2">名前</label>
@@ -88,7 +89,7 @@
               value="{{ old('name') }}"
             >
           </div>
-          
+
           <div>
             <button type="submit" class="cursor-pointer py-2 px-4 text-sx text-white bg-indigo-500 rounded-md">
               保存

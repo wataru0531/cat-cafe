@@ -2,10 +2,6 @@
 
 // ✅ カテゴリーに関するコントローラ
 
-// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// 確認
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
