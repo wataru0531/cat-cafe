@@ -37,7 +37,7 @@ class AdminCatController extends Controller {
     return to_route("admin.cats.index")->with("success", "ねこを登録しました。");
   }
 
-  // ✅ 更新
+  // ✅ 編集画面
   public function edit(string $catId) {
     $cat = Cat::findOrFail($catId);
 
@@ -46,6 +46,7 @@ class AdminCatController extends Controller {
     ]);
   }
 
+  // ✅ 編集処理
   public function update(UpdateCatRequest $request, string $catId) {
     $cat = Cat::findOrFail($catId);
 

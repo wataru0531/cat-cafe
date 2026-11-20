@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreMediaRequest;
+use App\Http\Requests\Admin\UpdateMediaRequest;
 use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -74,8 +75,25 @@ class AdminMediaController extends Controller {
     return to_route("admin.medias.index")->with("success", "画像をアップロードしました。");
   }
 
-  // 削除処理
-  // TODO 文法チェック。通常方法の確認
+  // ✅ 編集画面
+  public function edit(string $mediaId) {
+    $media = Media::findOrFail($mediaId);
+
+    return view("admin.medias.edit", [
+      "$media" => $media,
+    ]);
+  }
+
+  // ✅ 編集処理
+  public function update(UpdateMediaRequest $request, string $mediaId) {
+    $media = Media::findOrFail($mediaId);
+    $updateData = $request->validated();
+    $media->update($updateData);
+
+    return to_route('admin.medias.index')->with("success", "画像名の更新を行いました。");
+  }
+
+  // ✅ 削除処理
   public function destroy(string $mediaId){
     $media = Media::findOrFail($mediaId);
     $media->delete(); // DBから削除

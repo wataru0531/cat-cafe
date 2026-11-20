@@ -71,13 +71,28 @@
                   >
                     画像を選択する
                   </label>
-                  <button 
-                    type="submit" 
-                    class="cursor-pointer py-2 px-4 text-sx text-white bg-indigo-500 rounded-md">保存</button>
+
                 </div>
               </div>
             </div>
-
+          </div>
+          {{-- 画像名 --}}
+          <div class="mb-6">
+            <label for="name" class="block text-sm font-medium mb-2">名前</label>
+            <input
+              id="name"
+              class="block w-full px-4 py-3 mb-2 text-sm bg-white border rounded outline-none"
+              type="text"
+              placeholder="画像に名前をつけてください。"
+              name="name"
+              value="{{ old('name') }}"
+            >
+          </div>
+          
+          <div>
+            <button type="submit" class="cursor-pointer py-2 px-4 text-sx text-white bg-indigo-500 rounded-md">
+              保存
+            </button>
           </div>
         </div>
       </form>

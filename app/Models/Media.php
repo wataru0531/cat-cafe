@@ -11,8 +11,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Media extends Model {
+  // Mediaモデルでは、テーブル名が自動でmediaになってしまうので明記する
+  protected $table = "medias";
+
   protected $fillable = [
     "original_name",
+    "name",
     "disk",
     "path",
     "mime_type",
@@ -29,5 +33,4 @@ class Media extends Model {
   public function uploader() {
     return $this->belongsTo(User::class, 'uploaded_by');
   }
-
 }
