@@ -1,5 +1,8 @@
 <?php
 
+// ✅ 認証のコントローラ
+// ログイン時間のキャッシュはデフォルトで2時間
+
 namespace App\Http\Controllers\Admin;
 
 // AuthController
@@ -18,8 +21,8 @@ class AuthController extends Controller {
   public function login(Request $request) {
     // バリデーションで検証 → 成功したらsessionに記録
     $credentials = $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required'],
+      'email' => ['required', 'email'],
+      'password' => ['required'],
     ]);
 
     if(Auth::attempt($credentials)) { // email、パスが正しいかどうかを検証
@@ -43,7 +46,7 @@ class AuthController extends Controller {
     // リダイレクト後のビュー内でold関数によって直前の入力内容を取得出来る項目をonlyInputで指定する
     return back()->withErrors([
         'email' => 'メールアドレスまたはパスワードが正しくありません',
-    ])->onlyInput('email');
+    ])->onlyInput('email'); // emailのみセッションに保存する。→ パスワードに関しては再入力する
   }
 
   // ✅ ログアウト

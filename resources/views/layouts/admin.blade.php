@@ -244,9 +244,10 @@
                     など書かなくていい。
         -->
         <span class="text-sm text-gray-500">
-          {{ Illuminate\Support\Facades\Auth::user()->name }}
+          {{ Illuminate\Support\Facades\Auth::user()?->name ?? "ログインユーザー名" }}
           {{-- <span class="text-sm text-gray-500">{{ $user->name }}</span> --}}
         </span>
+      
         {{-- 
           画像は、バックエンドの、storage/app/public/users などに保存される
           参照する時は、フロントの、storage/users/ファイル名、から参照して表示
@@ -261,7 +262,7 @@
 
         <img 
           class="ml-3 w-10 h-10 rounded-full object-cover object-right" 
-          src="{{ Illuminate\Support\Facades\Auth::user()->image
+          src="{{ Illuminate\Support\Facades\Auth::user()?->image
             ? asset('storage/' . Illuminate\Support\Facades\Auth::user()->image)
             : asset('/images/placeholders/admin/user.jpg') 
           }}"
@@ -322,11 +323,10 @@
       @endif
       {{-- エラーメッセージ --}}
 
-
-
       <!-- ▼▼▼▼ページ毎の個別内容▼▼▼▼　-->
       @yield('content')
       <!-- ▲▲▲▲ページ毎の個別内容▲▲▲▲　-->
+
     </main>
   </div>
 </div>

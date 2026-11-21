@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Storage;
 class AdminBlogController extends Controller {
   // ✅ ブログ一覧画面
   public function index() {
+    // abort(500); // わざと500番台のエラーを発生させる。
+
     // $user = Auth::user(); // ログイン中のユーザーを取得。セッションから
     // $blogs = blog::all();
 

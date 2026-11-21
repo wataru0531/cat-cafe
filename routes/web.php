@@ -1,9 +1,8 @@
 <?php
 // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
 // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// ログインの時間を長く
+// 403、404、500、一般、管理者向けとに出し分ける
 // headタグの中を動的にする
-// ファイルライブラリの画面の編集
 
 
 ////////////////////////////////
@@ -23,10 +22,10 @@
 // categories/index
 // categories/categoryId
 
-// ✅ 利用規約ページ 
+// ❌ 利用規約ページ 
 // terms.blade.php
 
-// プライバシーポリシー
+// ❌ プライバシーポリシー
 // privacy.blade.php
 
 // ✅ エラーページ関連
@@ -237,7 +236,6 @@ Route::post("/admin/medias", [AdminMediaController::class, "store"])->name("admi
 Route::get("/admin/medias/{mediaId}", [AdminMediaController::class, "edit"])->name("admin.medias.edit")->middleware("auth");
 Route::put("/admin/medias/{mediaId}", [AdminMediaController::class, "update"])->name("admin.medias.update")->middleware("auth");
 Route::delete("/admin/medias/{mediaId}", [AdminMediaController::class, "destroy"])->name("admin.medias.destroy")->middleware("auth");
-
 
 
 // ✅ 認証関係

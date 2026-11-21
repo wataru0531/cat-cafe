@@ -35,7 +35,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
-        );
+      $exceptions->shouldRenderJsonWhen(
+          fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
+      );
+
+      // 管理画面と、一般画面とで404ページを振り分ける
+      // 管理画面と一般画面で404を振り分ける
+   
+
     })->create();
