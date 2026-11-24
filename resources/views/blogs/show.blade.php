@@ -1,3 +1,9 @@
+
+{{-- 
+  ✅ blog詳細ページ
+
+--}}
+
 @extends('layouts.default')
 @section('title', 'ブログ詳細')
 

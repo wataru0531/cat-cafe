@@ -1,9 +1,7 @@
 <?php
 // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
 // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// 403、404、500、一般、管理者向けとに出し分ける
 // headタグの中を動的にする
-
 
 ////////////////////////////////
 // ✅ 一般ユーザー向け画面
@@ -22,34 +20,35 @@
 // categories/index
 // categories/categoryId
 
+// ✅ エラーページ関連
+// ☑️ 403エラー errors/403.blade.php。アクセス禁止のページ
+// ☑️ 404エラ- errors/404.blade.php  ページが存在しない場合
+// ☑️ 500エラー errors/500.blade.php サーバー内エラー
+
+// ✅ お問い合わせ一覧
+// ☑️ contact indexページ
+// ☑️ contact completeページ
+
+// ✅ サイドバー → リンクを埋める
+// ☑️ユーザー管理 /admin/users/index.blade.php
+// ☑️ ブログ管理 
+// ☑️ お問い合わせ管理
+// ☑️ ファイルライブラリ → アップロード済みファイルを一覧・管理する
+// ☑️ ログアウト処理
+// ☑️ カテゴリー
+// ☑️ 登録してる猫
+// ❌ 設定
+
 // ❌ 利用規約ページ 
 // terms.blade.php
 
 // ❌ プライバシーポリシー
 // privacy.blade.php
 
-// ✅ エラーページ関連
-// ☑️ 403エラー errors/403.blade.php。アクセス禁止のページ
-// 404エラ- errors/404.blade.php  ページが存在しない場合
-// 500エラー errors/500.blade.php サーバー内エラー
-
-// ✅ お問い合わせ一覧
-// ☑️ contact indexページ
-// ☑️ contact completeページ
 
 // ✅ 付けたい機能関係
 // ブログ検索機能
 // → ブログタイトル、ブログ本文、猫の名前
-
-
-// ✅ サイドバー → リンクを埋める
-// → ユーザー管理 /admin/users/index.blade.php
-//   ☑️ ブログ管理 
-//   ☑️ お問い合わせ管理
-//   ファイルライブラリ → アップロード済みファイルを一覧・管理する
-//   設定
-//   ☑️ ログアウト処理
-// ※ カテゴリー、登録してる猫、ファイルライブラリなどの項目を追加
 
 
 /////////////////////////////
@@ -88,12 +87,12 @@
 //           　　※ blogで使われているcatは削除できない
 
 // ✅ ファイルライブラリページ
-// admin/media/index.blade.php ... 一覧
-// admin/media/create ... 作成
-// post admin/media ... upload
-// delete admin/media/{media} ... 削除
+// ☑️ admin/media/index.blade.php ... 一覧
+// ☑️ admin/media/create ... 作成
+// ☑️ post admin/media ... upload
+// ☑️ delete admin/media/{media} ... 削除
 
-// → アップロード済み画像の一覧
+// → 画像の一覧のレイアウトを作る
 //   画像のプレビュ-
 //   ファイル名
 //   アップロード日時
@@ -157,6 +156,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
 
 ///////////////////////////////////////////////////////////////
 // ✅ 一般ユーザー向けのルート
@@ -165,11 +165,18 @@ use App\Http\Controllers\ContactController;
 //     return view('index');
 // });
 
-Route::view("/", [BlogController::class, "index"])->name("blog.index");
+// Route::view() → 直接bladeファイルを呼び出す。
+// Route::view("/", "index")->name("blog.index");
+Route::get("/", [HomeController::class, "index"])->name("home.index");
+
+// ✅ ブログ
+Route::get("/blogs", [BlogController::class, "index"])->name("blogs.index");
+Route::get("/blogs/{blogId}", [BlogController::class, "show"])->name("blogs.show");
+// ✅ カテゴリ一覧
 
 
 // コンタクトフォーム
-Route::get("/contact", [ContactController::class, "index"])->name("contact");
+Route::get("/contact", [ContactController::class, "index"])->name("contact.index");
 Route::post("/contact", [ContactController::class, "sendMail"]);
 Route::get("/contact/complete", [ContactController::class, "complete"])->name("contact.complete");
 
@@ -236,7 +243,6 @@ Route::post("/admin/medias", [AdminMediaController::class, "store"])->name("admi
 Route::get("/admin/medias/{mediaId}", [AdminMediaController::class, "edit"])->name("admin.medias.edit")->middleware("auth");
 Route::put("/admin/medias/{mediaId}", [AdminMediaController::class, "update"])->name("admin.medias.update")->middleware("auth");
 Route::delete("/admin/medias/{mediaId}", [AdminMediaController::class, "destroy"])->name("admin.medias.destroy")->middleware("auth");
-
 
 // ✅ 認証関係
 Route::get("/admin/login", [AuthController::class, "showLoginForm"])->name("admin.login")->middleware("guest");

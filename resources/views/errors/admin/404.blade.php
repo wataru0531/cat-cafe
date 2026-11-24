@@ -9,7 +9,7 @@
 
 @section("content")
   <section class="flex flex-col items-center justify-center py-20">
-    <h1 class="text-5xl font-bold text-gray-800 ">404</h1>
+    <h1 class="text-5xl font-bold text-gray-800 ">404(管理者用の404ページ)</h1>
     <p class="mt-6 text-gray-500">管理画面のページが見つかりませんでした。</p>
     <a 
       href="{{ route('admin.blogs.index') }}" 

@@ -21,7 +21,7 @@
 
 @section("content")
   <section class="flex flex-col items-center justify-center py-20">
-    <h1 class="text-5xl font-bold text-gray-800 ">403</h1>
+    <h1 class="text-5xl font-bold text-gray-800 ">403(管理者用の403ページ)</h1>
     <p class="mt-6 text-xl text-gray-700 ">アクセスが禁止されています。</p>
     <p class="mt-6 text-gray-500">管理者以外はこのページにアクセスできません。</p>
     <a 

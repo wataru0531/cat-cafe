@@ -4,7 +4,6 @@
 
 -->
 
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -35,8 +34,14 @@
         <li><a class="text-sm text-blueGray-400 hover:text-blueGray-500" href="#">よくあるご質問</a></li>
       </ul>
       <div>
-        <a class="mr-2 inline-block px-4 py-3 text-xs text-blue-500 hover:text-blue-600 leading-none border border-blue-200 hover:border-blue-300 rounded" href="/contact">お問い合わせ</a>
-        <a class="inline-block px-4 py-3 text-xs font-semibold leading-none bg-blue-500 hover:bg-blue-600 text-white rounded" href="/#access">アクセス</a>
+        <a 
+          class="mr-2 inline-block px-4 py-3 text-xs text-blue-500 hover:text-blue-600 leading-none border border-blue-200 hover:border-blue-300 rounded" 
+          href="{{ route('contact.index') }}"
+        >お問い合わせ</a>
+        <a 
+          class="inline-block px-4 py-3 text-xs font-semibold leading-none bg-blue-500 hover:bg-blue-600 text-white rounded" 
+          href="/#access"
+        >アクセス</a>
       </div>
     </nav>
   </div>

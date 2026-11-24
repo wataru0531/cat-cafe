@@ -8,11 +8,11 @@
   ・ログインユーザーに編集権限がない	403
   ・ログインユーザーに削除権限がない	403
 
-  Laravelは、HTTPステータスコードに対応したBladeファイルを自動的に探す。
-  ステータスコード	Bladeファイル
-  403	errors/403.blade.php
-  404	errors/404.blade.php
-  500	errors/500.blade.php
+  ⭐️ 一般ユーザー向け画面で、403を返す場合
+  ・他人の投稿を編集 → 自分以外のユーザーが作成したブログを編集しようとした
+  ・他人の投稿を削除 → 自分以外のユーザーの投稿を削除しようとした
+  ・非公開ページへのアクセス → 閲覧権限のないページにアクセスした
+  ・ログインユーザー限定の操作 → ログインしていない状態で、権限が必要な操作をした
 
 --}}
 
@@ -20,7 +20,7 @@
 
 @section("content")
   <section class="flex flex-col items-center justify-center py-20">
-    <h1 class="text-5xl font-bold text-gray-800 ">403</h1>
+    <h1 class="text-5xl font-bold text-gray-800 ">403(一般ユーザー用の403)</h1>
     <p class="mt-6 text-xl text-gray-700 ">アクセスが禁止されています。</p>
     <p class="mt-6 text-gray-500">管理者以外はこのページにアクセスできません。</p>
     <a 
@@ -29,7 +29,6 @@
     >
       管理画面トップページに戻る
     </a>
-    
   </section>
 
 @endsection

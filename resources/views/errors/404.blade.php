@@ -9,7 +9,7 @@
 
 @section("content")
   <section class="flex flex-col items-center justify-center py-20">
-    <h1 class="text-5xl font-bold text-gray-800 ">404</h1>
+    <h1 class="text-5xl font-bold text-gray-800 ">404(一般ユーザー用の404)</h1>
     <p class="mt-6 text-xl text-gray-700 ">お探しのページが見つかりません。</p>
     <p class="mt-6 text-gray-500">ページが削除されたか、URLが間違っている可能性があります。</p>
     <a 

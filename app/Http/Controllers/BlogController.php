@@ -1,66 +1,31 @@
 <?php
 
-// 一般ユーザー向けのブログ機能を担当させるController
-// 一般ユーザーが、/blogs などにアクセスしたときように表示させる
+
+// ✅ ブログ。一般ユーザー向け
 
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
 
+
 class BlogController extends Controller {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index() {
-      return view("");
-    }
+  // ✅ 一覧
+  public function index() {
+    $blogs = Blog::latest()->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    return view("blogs.index", [
+      "blogs" => $blogs,
+    ]);
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+  // ✅ 詳細ページ
+  public function show(string $blogId) {
+    // dd($blogId);
+    $blog = Blog::findOrFail($blogId);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Blog $blog)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Blog $blog)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Blog $blog)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Blog $blog)
-    {
-        //
-    }
+    return view("blogs.show", [
+        "blog" => $blog,
+    ]);
+  }
 }

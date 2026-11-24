@@ -14,7 +14,7 @@
 
 @section("content")
   <section class="flex flex-col items-center justify-center py-20">
-    <h1 class="text-5xl font-bold text-gray-800 ">500</h1>
+    <h1 class="text-5xl font-bold text-gray-800 ">500(管理者用の500ページ)</h1>
     <p class="mt-6 text-xl text-gray-700 ">サーバー内でエラーが発生しました。</p>
     <p class="mt-6 text-gray-500">申し訳ありません。時間をおいてお試しください。</p>
     <a 
