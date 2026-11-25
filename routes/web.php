@@ -172,8 +172,8 @@ Route::get("/", [HomeController::class, "index"])->name("home.index");
 // ✅ ブログ
 Route::get("/blogs", [BlogController::class, "index"])->name("blogs.index");
 Route::get("/blogs/{blogId}", [BlogController::class, "show"])->name("blogs.show");
-// ✅ カテゴリ一覧
 
+// ✅ カテゴリ一覧
 
 // コンタクトフォーム
 Route::get("/contact", [ContactController::class, "index"])->name("contact.index");

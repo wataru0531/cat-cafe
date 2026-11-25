@@ -1,5 +1,9 @@
 <?php
 
+// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+// 詳細ページが表示されないので確認
+
 
 // ✅ ブログ。一般ユーザー向け
 
@@ -22,7 +26,8 @@ class BlogController extends Controller {
   // ✅ 詳細ページ
   public function show(string $blogId) {
     // dd($blogId);
-    $blog = Blog::findOrFail($blogId);
+    // 紐づいているカテゴリー、ユーザーのデータも取得する。
+    $blog = Blog::with(["category", "user"])->findOrFail($blogId);
 
     return view("blogs.show", [
         "blog" => $blog,

@@ -76,9 +76,14 @@ class AdminBlogController extends Controller {
 
     $validated["image"] = $request->file("image")->store("blogs", "public"); // パスを保存、パスを返す
     
-    // blogsテーブルにブログを新規作成
+    // DBに保存
     // 返された$blog ... データベースに新規保存されたブログの情報を持つ、Blogモデルのインスタンス(オブジェクト)
-    $blog = Blog::create($validated); 
+    // 
+    // $request->user() ... ログイン中のユーザーを取得
+    //                      blogのuser_idに自動的にログイン中のuserのidが入る
+    //                      → リレーション経由なので可能
+    // $blog = Blog::create($validated); 
+    $blog = $request->user()->blogs()->create($validated);
 
     // ⭐️ 中間テーブルに猫との関連付けを登録
     // → このブログに対して、catIds(例えば、[1, 2])の関連付けを保存すると言う意味。

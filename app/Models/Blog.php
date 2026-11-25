@@ -21,6 +21,12 @@ class Blog extends Model {
     "category_id",
   ];
 
+  // 1つのblogは、1人のユーザーによって書かれる。
+  // 逆に1人のユーザーは、複数のブログを書くことができる
+  public function user() {
+    return $this->belongsTo(User::class);
+  }
+
   // ⭐️ カテゴリーが親だということ
   //    1つのBlogは、1つのCategoryに属する
   //  → 逆に、1つのCategoryは、複数のBlogに紐づく

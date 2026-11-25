@@ -1,3 +1,9 @@
+
+{{-- 
+  ✅ blogs一覧ページ
+--}}
+
+
 @extends('layouts.default')
 @section('title', 'ブログ一覧')
 

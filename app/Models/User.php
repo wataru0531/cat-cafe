@@ -33,6 +33,12 @@ class User extends Authenticatable {
     ];
   }
 
+  // 1人のユーザーは複数のblogを書くことができる
+  // 逆に1つのブログは、複数のuserに属している。
+  public function blogs() {
+    return $this->hasMany(Blog::class);
+  }
+
   // アップロードした画像を取得する
   // $user->medias; で画像を取得
   // 1人のユーザーは多数の画像を持つ。逆に、画像はユーザー1人に結びつく。
