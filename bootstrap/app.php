@@ -40,31 +40,30 @@ return Application::configure(basePath: dirname(__DIR__))
         fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
     );
 
-    // 管理画面と、一般画面とで404ページを振り分ける
-    // 管理画面と一般画面で404を振り分ける
-    $exceptions->render(function (Throwable $e, Request $request) {
+    // ✅ 管理画面と一般画面とでエラーページを出し分ける
+    // $exceptions->render(function (Throwable $e, Request $request) {
 
-        // ① HTTPステータスコードを取得
-        $status = $e instanceof HttpExceptionInterface
-            ? $e->getStatusCode()
-            : 500;
+    //     // ① HTTPステータスコードを取得
+    //     $status = $e instanceof HttpExceptionInterface
+    //         ? $e->getStatusCode()
+    //         : 500;
 
-        // ② 対象のエラー以外はLaravel標準の処理に任せる
-        if (!in_array($status, [403, 404, 500])) {
-            return null;
-        }
+    //     // ② 対象のエラー以外はLaravel標準の処理に任せる
+    //     if (!in_array($status, [403, 404, 500])) {
+    //       return null;
+    //     }
 
-        // ③ 管理者向けURLかどうかを判定
-        $isAdmin = $request->is('admin', 'admin/*');
+    //     // ③ 管理者向けURLかどうかを判定
+    //     $isAdmin = $request->is('admin', 'admin/*');
 
-        // ④ 表示するBladeファイルを決定
-        $view = $isAdmin
-            ? "errors.admin.{$status}"
-            : "errors.{$status}";
+    //     // ④ 表示するBladeファイルを決定
+    //     $view = $isAdmin
+    //         ? "errors.admin.{$status}"
+    //         : "errors.{$status}";
 
-        // ⑤ エラーページを返す
-        return response()->view($view, [], $status);
-    });
+    //     // ⑤ エラーページを返す
+    //     return response()->view($view, [], $status);
+    // });
 
 
 

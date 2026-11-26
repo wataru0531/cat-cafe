@@ -44,7 +44,7 @@ resources/views/contact/index.blade.php
         urlを取得した後で、methodを見てpostかgetを決める
         old() → 自分が入力した内容。フラッシュメッセージとして保存
       -->
-      <form action="{{ route('contact') }}" method="POST">
+      <form action="{{ route('contact.send') }}" method="POST">
         @csrf
 
         <div class="mb-4">

@@ -3,6 +3,9 @@
   ✅ blog詳細ページ
   id, category_id, title, updated_at, image, body, created_at
 
+  ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+  ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+  ユーザーとのリレーションの確認から
 
 --}}
 
@@ -22,6 +25,10 @@
     <div class="my-8 pb-4 border-b">
       {{-- 
         ✅ ブログに紐づいているカテゴリ
+      --}}
+      {{-- 
+         $blog->category() ... リレーションを取得
+         $blog->category ... 関連付けられたユーザーのデータを取得
       --}}
       <p class="text-lg text-left">カテゴリ / {{ $blog->category->name }}</p>
       
@@ -66,8 +73,8 @@
         class="h-40 h-40 rounded-full shadow"
       >
       <div class="pl-10">
-        <h4 class="text-xl font-medium">{{ $blog->user()->introduction }}</h4>
-        <p class="pt-3">{{ $blog-user()->name }}</p>
+        <h4 class="text-xl font-medium">{{ $blog->user->introduction }}</h4>
+        <p class="pt-3">{{ $blog->user->name }}</p>
         <p class="pt-3 text-gray-400">説明テキストが入ります説明テキストが入ります説明テキストが入ります説明テキストが入ります説明テキストが入ります説明テキストが入ります説明テキストが入ります。説明テキストが入ります説明テキストが入ります説明テキストが入ります説明テキストが入ります。</p>
       </div>
     </div>

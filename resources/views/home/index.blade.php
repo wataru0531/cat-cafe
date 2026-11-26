@@ -67,9 +67,9 @@
     </div>
   </section>
 
-  {{-- ✅ お知らせ --}}
+  {{-- ✅ お知らせ → ❌ --}}
   <section class="mt-24 container mx-auto">
-    <p class="text-center text-2xl">お知らせ</p>
+    <p class="text-center text-2xl">❌ お知らせ</p>
     <h2 class="mt-2 font-bold font-heading text-center text-3xl">営業時間や新メンバーなど様々な情報をお届け</h2>
 
     <ul class="mt-8">
@@ -107,26 +107,40 @@
           <article class="w-full md:w-1/2 lg:w-1/3 p-3">
             <div class="border rounded-lg overflow-hidden shadow">
               <div class="relative h-52">
-                <span class="absolute text-xs text-gray-400 px-2 border border-white bg-gray-100 uppercase py-2 px-10 left-0 bottom-0">カテゴリ</span>
-                {{-- 詳細ページに --}}
-
+                <span class="absolute text-xs text-gray-400 px-2 border border-white bg-gray-100 uppercase py-2 px-10 left-0 bottom-0">
+                  {{ $blog->category->name }}
+                </span>
                 <a href="{{ route('blogs.show', ['blogId' => $blog->id]) }}">
-                  <img class="w-full h-full object-cover" src="/images/placeholders/blogs/lunch.jpeg" alt="">
+                  <img 
+                    class="w-full h-full object-cover" 
+                    src="{{
+                      $blog->image && file_exists(public_path('storage/' . $blog->image))
+                      ? asset('storage/' . $blog->image)
+                      : asset('images/noimage.jpeg')
+                    }}" 
+                    alt="{{ $blog->title }}"
+                  >
                 </a>
-                <time class="text-xs text-gray-500 text-right pr-2 pt-2">2022.3.12</time>
+                <time 
+                  class="text-xs text-gray-500 text-right pr-2 pt-2"
+                  datetime="{{ $blog->updated_at->toIso8601String() }}"
+                >{{ $blog->updated_at->format('Y-m-d H:i') }}</time>
               </div>
               <div class="pt-2 pb-4 px-4">
                 <a href="#">
-                  <h1 class="mb-2 text-2xl font-semibold font-heading text-left">ランチの様子</h1>
-                  <p class="mb-6 text-gray-500 leading-relaxed text-left truncate">12:00のランチタイムはド迫力！！写真映えもするこの...</p>
+                  <h1 class="mb-2 text-2xl font-semibold font-heading text-left">{{ $blog->title }}</h1>
+                  <p class="mb-6 text-gray-500 leading-relaxed text-left truncate">
+                    {{ \Illuminate\Support\Str::limit($blog->body, 50, '...') }}
+                  </p>
                 </a>
                 <div class="flex justify-between">
+                  {{-- ブログ1つに紐づいているカテゴリ --}}
                   <ul class="flex">
                     <li class="bg-gray-100 text-gray-400 text-xs mr-2 py-1 px-2">＃ねこちゃん</li>
                     <li class="bg-gray-100 text-gray-400 text-xs py-1 px-2 mr-2">＃ねこちゃん</li>
                     <li class="bg-gray-100 text-gray-400 text-xs py-1 px-2">＃ねこちゃん</li>
                   </ul>
-                  <p class="font-medium font-semibold">店長</p>
+                  <p class="font-medium font-semibold">{{ $blog->user->name }}</p>
                 </div>
               </div>
             </div>
@@ -137,7 +151,10 @@
       </div>
 
       <div class="mt-8 text-center">
-        <a href="#" class="inline-block text-xs text-white font-semibold leading-none rounded py-4 text-blue-500 border-solid bg-white border-blue-500 border-2 px-16 hover:text-white hover:bg-blue-500">もっと見る</a>
+        <a 
+          href="{{ route('blogs.index') }}" 
+          class="inline-block text-xs text-white font-semibold leading-none rounded py-4 text-blue-500 border-solid bg-white border-blue-500 border-2 px-16 hover:text-white hover:bg-blue-500"
+        >もっと見る</a>
       </div>
     </div>
   </section>

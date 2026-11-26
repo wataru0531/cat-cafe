@@ -16,7 +16,9 @@ use Illuminate\Http\Request;
 class BlogController extends Controller {
   // ✅ 一覧
   public function index() {
-    $blogs = Blog::latest()->get();
+    // latest() ... 降順に並べる。
+    // $blogs = Blog::latest()->get();
+    $blogs = Blog::with(['category', 'user'])->latest()->simplePaginate('10');
 
     return view("blogs.index", [
       "blogs" => $blogs,
