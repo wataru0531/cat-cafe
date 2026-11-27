@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Carbon;
 
 class Cat extends Model {
   protected $fillable = [
@@ -33,4 +33,10 @@ class Cat extends Model {
   // 4のブログに登場する猫一覧
   // $blog = Blog::find(4);
   // $cats = $blog->cats; 
+
+  // ✅　猫の年齢を生年月日から取得する
+  // viewで、$cat->age で年齢を取得できる。
+  public function getAgeAttribute() {
+    return Carbon::parse($this->date_of_birth)->age;
+  }
 }

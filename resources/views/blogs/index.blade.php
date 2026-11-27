@@ -1,9 +1,6 @@
 
 {{-- 
   ✅ blogs一覧ページ
-
-  ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-  ページネーションが表示されない
 --}}
 
 
@@ -87,7 +84,8 @@
   </div>
 
   <div class="mt-10">
-    {{ $blogs->links() }}
+    {{-- {{ $blogs->links() }} --}}
+    {{ $blogs->onEachSide(2)->links() }}
 
     {{-- 
       <div class="flex justify-center items-center">

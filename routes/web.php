@@ -7,8 +7,9 @@
 // ✅ 一般ユーザー向け画面
 ///////////////////////////////
 // ✅ ブログ
-// blogs/index
-// blogs/blogId
+// ☑️ blogs/index
+// ☑️ blogs/blogId
+// ☑️ blogs/user/blogId 各ユーザーの一覧ページ
 
 // ✅ 猫
 // cats/index
@@ -155,6 +156,7 @@ use App\Http\Controllers\Admin\AdminMediaController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CatController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 
@@ -165,15 +167,20 @@ use App\Http\Controllers\HomeController;
 //     return view('index');
 // });
 
-// Route::view() → 直接bladeファイルを呼び出す。
-// Route::view("/", "index")->name("blog.index");
+// ✅ ホーム
 Route::get("/", [HomeController::class, "index"])->name("home.index");
 
 // ✅ ブログ
 Route::get("/blogs", [BlogController::class, "index"])->name("blogs.index");
 Route::get("/blogs/{blogId}", [BlogController::class, "show"])->name("blogs.show");
+// ユーザーが書いた一覧ページに
+Route::get("/blogs/user/{userId}", [BlogController::class, "userBlogs"])->name("blogs.user");
 
-// ✅ カテゴリ一覧
+// ✅ 猫
+Route::get('/cats', [CatController::class, 'index'])->name('cats.index');
+Route::get('/cats/{catId}', [CatController::class, 'show'])->name('cats.show');
+
+// ✅ カテゴリ一覧 → TODO どうするか。
 
 // コンタクトフォーム
 Route::get("/contact", [ContactController::class, "index"])->name("contact.index");
