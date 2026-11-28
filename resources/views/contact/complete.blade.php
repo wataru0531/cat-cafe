@@ -5,14 +5,16 @@ resources/views/contact/index.blade.php
 
 -->
 
-
 @extends('layouts.default')
 @section('title', 'お問い合わせ完了')
 
 @section('content')
   <section class="bg-gray-100 pt-2">
     <div class="container mx-auto">
-      <p class="text-left px-4 pt-2"><a href="#" class="text-blue-600 hover:underline">ホーム</a>&gt;お問い合わせ</p>
+      <p class="text-left px-4 pt-2">
+        <a href="{{ route('home.index') }}" class="text-blue-600 hover:underline">ホーム</a>
+        &gt;お問い合わせ
+      </p>
       <h1 class="mt-2 text-4xl font-bold font-heading h-40 text-center p-12">お問い合わせが完了しました</h1>
     </div>
   </section>
@@ -28,7 +30,9 @@ resources/views/contact/index.blade.php
       大変お手数ですが、再度お問い合わせの手続きをお願い致します。
       </p>
 
-      <p class="pt-10"><a href="/" class="text-blue-600 hover:underline">トップページ</a>に戻る</p>
+      <p class="pt-10">
+        <a href="{{ route('home.index') }}" class="text-blue-600 hover:underline">トップページ</a>に戻る
+      </p>
     </div>
   </section>
 @endsection

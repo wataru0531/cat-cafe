@@ -10,7 +10,11 @@
 @section('content')
 <section class="bg-gray-100 pt-2">
   <div class="container mx-auto">
-    <p class="text-left px-4 pt-2 text-gray-400"><a href="#" class="text-blue-600 hover:underline">ホーム</a><span class="px-2">&gt</span>ブログ</p>
+    <p class="text-left px-4 pt-2 text-gray-400">
+      <a href="{{ route('home.index') }}" class="text-blue-600 hover:underline">ホーム</a>
+      <span class="px-2">&gt</span>
+      ブログ
+    </p>
     <p class="text-center pt-10 text-2xl">ブログ</p>
     <h1 class="mt-2 text-4xl font-bold font-heading text-center h-32">ほぼ毎日お店でねこの様子をお届け！！</h1>
   </div>

@@ -1,6 +1,6 @@
 
 <!-- 
-  index.blade.php
+  ✅ ホーム。index.blade.php
 
 -->
 
@@ -146,10 +146,7 @@
             </div>
           </article>
         @endforeach
-        
-        
       </div>
-
       <div class="mt-8 text-center">
         <a 
           href="{{ route('blogs.index') }}" 
@@ -159,6 +156,72 @@
     </div>
   </section>
 
+  {{-- ✅ ねこ一覧 --}}
+  <section class="mt-24">
+    <div class="container mx-auto">
+      <p class="text-center text-2xl">ねこ一覧</p>
+      <h2 class="mt-2 font-bold font-heading text-center text-3xl">登録しているねこ一覧ページ</h2>
+
+      <div class="my-8 pb-4 border-b">
+        <p class="text-lg text-left">カテゴリ / ねこちゃん</p>
+        {{-- カテゴリ詳細 --}}
+        <ul class="flex text-center pt-2">
+          <li class="bg-gray-100 text-gray-400 py-1 px-3 mr-3"><a href="#">カテゴリ</a></li>
+          <li class="bg-gray-100 text-gray-400 py-1 px-3 mr-3"><a href="#">＃ねこちゃん</a></li>
+          <li class="bg-gray-100 text-gray-400 py-1 px-3 mr-3"><a href="#">＃ねこちゃん</a></li>
+          <li class="bg-gray-100 text-gray-400 py-1 px-3"><a href="#">＃ねこちゃん</a></li>
+        </ul>
+      </div>
+
+      <div class="flex flex-wrap -mx-3">
+        {{-- ねこのループ --}}
+        @foreach($cats as $cat)
+          <article class="w-full md:w-1/2 lg:w-1/3 p-3">
+            <div class="border rounded-lg overflow-hidden shadow">
+              <div class="relative h-52">
+                <span class="absolute text-xs text-gray-400 px-2 border border-white bg-gray-100 uppercase py-2 px-10 left-0 bottom-0">
+                  {{ $cat->name }}
+                </span>
+                <a href="{{ route('cats.show', ['catId' => $cat->id]) }}">
+                  <img 
+                    class="w-full h-full object-cover" 
+                    src="{{
+                      $cat->image && file_exists(public_path('storage/' . $cat->image))
+                      ? asset('storage/' . $cat->image)
+                      : asset('images/noimage.jpg')
+                    }}" 
+                    alt="{{ $cat->title }}"
+                  >
+                </a>
+                <time 
+                  class="text-xs text-gray-500 text-right pr-2 pt-2"
+                  datetime="{{ $cat->updated_at->toIso8601String() }}"
+                >{{ $cat->updated_at->format('Y-m-d H:i') }}</time>
+              </div>
+              <div class="pt-2 pb-4 px-4">
+                <a href="#">
+                  <h1 class="mb-2 text-2xl font-semibold font-heading text-left">{{ $cat->name }}</h1>
+                  <p class="mb-6 text-gray-500 leading-relaxed text-left truncate">
+                    {{ $cat->breed }}
+                  </p>
+                  <p>{{ $cat->gender === 1 ? "♂" : "♀" }}{{ $cat->age }}さい</p>
+                  <p>{{ $cat->date_of_birth }}</p>
+                </a>
+              </div>
+            </div>
+          </article>
+        @endforeach
+      </div>
+      <div class="mt-8 text-center">
+        <a 
+          href="{{ route('cats.index') }}" 
+          class="inline-block text-xs text-white font-semibold leading-none rounded py-4 text-blue-500 border-solid bg-white border-blue-500 border-2 px-16 hover:text-white hover:bg-blue-500"
+        >もっと見る</a>
+      </div>
+    </div>
+  </section>
+
+  {{-- ✅ アクセス --}}
   <section id="access" class="mt-24 pb-24 bg-gray-100">
     <div class="container mx-auto">
       <p class="text-center pt-10 text-2xl">アクセス</p>

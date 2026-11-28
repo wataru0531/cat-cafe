@@ -11,7 +11,11 @@ resources/views/contact/index.blade.php
 @section('content')
 <section class="bg-gray-100 pt-2">
   <div class="container mx-auto">
-    <p class="text-left px-4 pt-2 text-gray-400"><a href="#" class="text-blue-600 hover:underline">ホーム</a><span class="px-2">&gt</span>お問い合わせ</p>
+    <p class="text-left px-4 pt-2 text-gray-400">
+      <a href="{{ route('home.index') }}" class="text-blue-600 hover:underline">ホーム</a>
+      <span class="px-2">&gt</span>
+      お問い合わせ
+    </p>
     <h1 class="mt-2 text-4xl font-bold font-heading h-40 text-center p-12">お問い合わせ</h1>
   </div>
 </section>

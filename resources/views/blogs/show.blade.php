@@ -1,7 +1,6 @@
 
 {{-- 
   ✅ blog詳細ページ
-
 --}}
 
 @extends('layouts.default')
@@ -95,14 +94,31 @@
         <article class="w-full md:w-1/2 lg:w-1/3 p-3">
           <div class="border rounded-lg overflow-hidden shadow">
             <div class="relative h-52">
-              <span class="absolute text-xs text-gray-400 px-2 border border-white bg-gray-100 uppercase py-2 px-10 left-0 bottom-0">カテゴリ</span>
-              <a href="#"><img class="w-full h-full object-cover" src="/images/placeholders/blogs/lunch.jpeg" alt=""></a>
-              <time class="text-xs text-gray-500 text-right pr-2 pt-2">2022.3.12</time>
+              <span class="absolute text-xs text-gray-400 px-2 border border-white bg-gray-100 uppercase py-2 px-10 left-0 bottom-0">
+                {{ $otherBlog->category->name }}
+              </span>
+              <a href="{{ route('blogs.show', ['blogId' => $otherBlog->id]) }}">
+                <img 
+                  class="w-full h-full object-cover" 
+                  src="{{
+                    $otherBlog->image && file_exists(public_path('storage/'. $otherBlog->image))
+                    ? asset('storage/' . $otherBlog->image)
+                    : asset('images/noimage.jpg')
+                  }}" 
+                  alt="{{ $otherBlog->title }}"
+                >
+              </a>
+              <time 
+                class="text-xs text-gray-500 text-right pr-2 pt-2"
+                datetime={{ $otherBlog->updated_at->format('Y-m-d H:i') }}
+              >{{ $blog->updated_at->format('Y-m-d H:i') }}</time>
             </div>
             <div class="pt-2 pb-4 px-4">
               <a href="#">
-                <h1 class="mb-2 text-2xl font-semibold font-heading text-left">ランチの様子</h1>
-                <p class="mb-6 text-gray-500 leading-relaxed text-left truncate">12:00のランチタイムはド迫力！！写真映えもするこの...</p>
+                <h1 class="mb-2 text-2xl font-semibold font-heading text-left">{{ $otherBlog-> title }}</h1>
+                <p class="mb-6 text-gray-500 leading-relaxed text-left">
+                  {{  \Illuminate\Support\Str::limit($otherBlog->body, 30, "...") }}
+                </p>
               </a>
               <div class="flex justify-between">
                 <ul class="flex">
@@ -110,7 +126,7 @@
                   <li class="bg-gray-100 text-gray-400 text-xs py-1 px-2 mr-2">＃ねこちゃん</li>
                   <li class="bg-gray-100 text-gray-400 text-xs py-1 px-2">＃ねこちゃん</li>
                 </ul>
-                <p class="font-medium font-semibold">店長</p>
+                <p class="font-medium font-semibold">{{ $blog->user->name }}</p>
               </div>
             </div>
           </div>

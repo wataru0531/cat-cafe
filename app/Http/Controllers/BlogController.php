@@ -1,10 +1,5 @@
 <?php
 
-// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// 詳細ページが表示されないので確認
-
-
 // ✅ ブログ。一般ユーザー向け
 
 namespace App\Http\Controllers;
@@ -52,8 +47,8 @@ class BlogController extends Controller {
     }
 
     return view("blogs.show", [
-        "blog" => $blog,
-        "otherBlogs" => $otherBlogs,
+      "blog" => $blog,
+      "otherBlogs" => $otherBlogs,
     ]);
   }
 

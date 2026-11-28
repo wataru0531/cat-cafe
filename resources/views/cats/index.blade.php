@@ -1,3 +1,9 @@
+
+{{-- 
+  ✅ ねこ一覧ページ
+--}}
+
+
 @extends('layouts.default')
 @section('title', 'ねこちゃんたち')
 
@@ -41,7 +47,7 @@
               {{ $cat->introduction }}
             </p>
             <div class="text-right">
-              <a href="" class="inline-block px-3 py-1 rounded-xs bg-pink-200">{{ $cat->name }}の詳細</a>
+              <a href="{{ route('cats.show', ['catId' => $cat->id]) }}" class="inline-block px-3 py-1 rounded-xs bg-pink-200">{{ $cat->name }}の詳細</a>
             </div>
           </div>
         </div>
